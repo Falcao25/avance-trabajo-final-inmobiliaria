@@ -1,0 +1,169 @@
+.filters-panel {
+    display: grid;
+    grid-template-columns: 2fr repeat(5, minmax(0, 1fr)) auto;
+    gap: 0.9rem;
+    align-items: end;
+}
+
+.filters-panel .btn {
+    min-width: 130px;
+}
+
+.property-page {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.property-toolbar {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.property-toolbar .muted {
+    margin: 0;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.2rem;
+}
+
+.detail-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+    gap: 1.5rem;
+}
+
+.gallery-main {
+    min-height: 420px;
+    border-radius: 24px;
+    background-size: cover;
+    background-position: center;
+    margin-bottom: 1rem;
+}
+
+.gallery-thumbs {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.7rem;
+}
+
+.gallery-thumbs div {
+    min-height: 82px;
+    border-radius: 16px;
+    background-size: cover;
+    background-position: center;
+}
+
+.detail-card {
+    padding: 1.35rem;
+}
+
+.detail-card h1 {
+    margin-top: 0;
+}
+
+.detail-price {
+    font-size: 2rem;
+    color: var(--primary);
+    margin: 0.5rem 0 1rem;
+}
+
+.detail-meta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem;
+    margin: 1.1rem 0;
+}
+
+.meta-box {
+    padding: 1rem;
+    border-radius: 16px;
+    background: var(--surface-alt);
+}
+
+.meta-box span {
+    display: block;
+    font-size: 0.84rem;
+    color: var(--muted);
+}
+
+.meta-box strong {
+    display: block;
+    margin-top: 0.25rem;
+}
+
+.feature-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    padding-left: 1rem;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+    padding: 0.9rem;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+}
+
+.data-table th {
+    background: rgba(23, 78, 166, 0.06);
+}
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.65rem;
+    border-radius: 999px;
+    background: rgba(15, 118, 110, 0.1);
+    color: var(--secondary);
+    font-size: 0.84rem;
+    font-weight: 700;
+}
+
+.form-card {
+    padding: 1.25rem;
+}
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.admin-stat {
+    padding: 1.2rem;
+}
+
+.admin-stat strong {
+    display: block;
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 0.25rem;
+}
+
+.action-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.form-note {
+    margin-top: 1rem;
+    color: var(--muted);
+    font-size: 0.92rem;
+}
