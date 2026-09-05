@@ -1,17 +1,15 @@
 <nav class="site-nav">
-    <div class="container nav-bar">
-        <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" data-menu-toggle>
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
+    <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" data-menu-toggle>
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
 
-        <ul class="nav-menu" data-nav-menu>
-            <li><a href="${pageContext.request.contextPath}/index.jsp">Inicio</a></li>
-            <li><a href="${pageContext.request.contextPath}/propiedades">Propiedades</a></li>
-            <li><a href="${pageContext.request.contextPath}/nosotros.jsp">Nosotros</a></li>
-            <li><a href="${pageContext.request.contextPath}/contacto">Contacto</a></li>
-            <li><a href="${pageContext.request.contextPath}/admin/dashboard">Administración</a></li>
-        </ul>
-    </div>
+    <ul class="nav-menu" data-nav-menu>
+        <li><a href="${pageContext.request.contextPath}/index.jsp">Inicio</a></li>
+        <li><a href="${pageContext.request.contextPath}/propiedades">Propiedades</a></li>
+        <li><a href="${pageContext.request.contextPath}/nosotros.jsp">Nosotros</a></li>
+        <li><a href="${pageContext.request.contextPath}/contacto">Contacto</a></li>
+        <li><a href="${pageContext.request.contextPath}/admin/dashboard">Administraci&oacute;n</a></li>
+    </ul>
 </nav>

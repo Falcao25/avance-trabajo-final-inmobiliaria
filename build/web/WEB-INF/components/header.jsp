@@ -7,6 +7,7 @@
                 <small>Viviendas, terrenos y alquileres</small>
             </span>
         </a>
+        <jsp:include page="/WEB-INF/components/navbar.jsp" />
         <div class="header-actions">
             <a class="header-link" href="tel:+51987654321">+51 987 654 321</a>
             <a class="header-link header-link-primary" href="${pageContext.request.contextPath}/login">Ingresar</a>

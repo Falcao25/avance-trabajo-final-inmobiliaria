@@ -12,7 +12,6 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/components/header.jsp" />
-<jsp:include page="/WEB-INF/components/navbar.jsp" />
 
 <main class="page-main">
     <section class="section">

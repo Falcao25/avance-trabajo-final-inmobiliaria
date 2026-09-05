@@ -25,6 +25,7 @@
     .hero-grid,
     .detail-layout,
     .footer-grid,
+    .cta-panel,
     .property-types,
     .benefits,
     .cards-grid,
@@ -34,6 +35,11 @@
     .form-grid,
     .search-strip {
         grid-template-columns: 1fr;
+    }
+
+    .cta-panel {
+        align-items: flex-start;
+        flex-direction: column;
     }
 
     .header-actions {
@@ -53,7 +59,7 @@
         flex-direction: column;
         align-items: stretch;
         padding: 0.75rem;
-        border-radius: 20px;
+        border-radius: 7px;
         background: rgba(255, 255, 255, 0.98);
         box-shadow: var(--shadow);
     }

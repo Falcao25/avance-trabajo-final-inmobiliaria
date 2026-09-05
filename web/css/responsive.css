@@ -25,6 +25,7 @@
     .hero-grid,
     .detail-layout,
     .footer-grid,
+    .cta-panel,
     .property-types,
     .benefits,
     .cards-grid,
@@ -34,6 +35,21 @@
     .form-grid,
     .search-strip {
         grid-template-columns: 1fr;
+    }
+
+    .header-bar {
+        flex-wrap: wrap;
+        row-gap: 0.5rem;
+    }
+
+    .site-nav {
+        order: 3;
+        flex: 0 0 auto;
+    }
+
+    .cta-panel {
+        align-items: flex-start;
+        flex-direction: column;
     }
 
     .header-actions {
@@ -46,14 +62,14 @@
 
     .nav-menu {
         position: absolute;
-        left: 1rem;
-        right: 1rem;
-        top: calc(100% + 0.8rem);
+        right: 0;
+        top: calc(100% + 0.65rem);
+        min-width: 210px;
         display: none;
         flex-direction: column;
         align-items: stretch;
         padding: 0.75rem;
-        border-radius: 20px;
+        border-radius: 7px;
         background: rgba(255, 255, 255, 0.98);
         box-shadow: var(--shadow);
     }

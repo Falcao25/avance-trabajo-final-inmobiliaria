@@ -13,12 +13,12 @@
     <title>Inmobiliaria Aurora | Propiedades</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/home.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/propiedades.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/responsive.css">
 </head>
 <body>
 <jsp:include page="/WEB-INF/components/header.jsp" />
-<jsp:include page="/WEB-INF/components/navbar.jsp" />
 
 <main class="page-main">
     <section class="section">

@@ -3,8 +3,8 @@
     top: 0;
     z-index: 40;
     backdrop-filter: blur(14px);
-    background: rgba(245, 247, 251, 0.88);
-    border-bottom: 1px solid rgba(219, 228, 240, 0.9);
+    background: rgba(243, 240, 234, 0.92);
+    border-bottom: 1px solid var(--border);
 }
 
 .header-bar,
@@ -16,6 +16,10 @@
     min-height: 74px;
 }
 
+.header-bar {
+    position: relative;
+}
+
 .brand {
     display: inline-flex;
     align-items: center;
@@ -24,8 +28,8 @@
 }
 
 .brand-logo {
-    width: 52px;
-    height: 52px;
+    width: 46px;
+    height: 46px;
     flex: none;
 }
 
@@ -51,7 +55,7 @@
 
 .header-link {
     padding: 0.7rem 1rem;
-    border-radius: 999px;
+    border-radius: 4px;
     border: 1px solid var(--border);
     background: #fff;
     color: var(--text);
@@ -64,17 +68,20 @@
 }
 
 .site-nav {
-    position: sticky;
-    top: 74px;
+    position: relative;
     z-index: 35;
-    background: rgba(255, 255, 255, 0.75);
-    border-bottom: 1px solid rgba(219, 228, 240, 0.75);
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 0;
 }
 
 .nav-menu {
     display: flex;
     align-items: center;
-    gap: 0.8rem;
+    gap: 0.35rem;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -84,14 +91,14 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.8rem 1rem;
-    border-radius: 999px;
+    padding: 0.7rem 0.85rem;
+    border-radius: 3px;
     color: var(--text);
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .nav-menu a:hover {
-    background: rgba(23, 78, 166, 0.09);
+    background: #e8ece5;
     color: var(--primary);
 }
 
@@ -103,7 +110,7 @@
     height: 46px;
     padding: 0.65rem;
     border: 1px solid var(--border);
-    border-radius: 14px;
+    border-radius: 5px;
     background: #fff;
 }
 
@@ -116,7 +123,7 @@
 }
 
 .hero {
-    padding: 4.5rem 0 2rem;
+    padding: 5.5rem 0 2.5rem;
 }
 
 .hero-grid {
@@ -131,12 +138,15 @@
     font-size: clamp(2.4rem, 5vw, 4.6rem);
     line-height: 0.98;
     letter-spacing: -0.04em;
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 500;
+    color: var(--primary);
 }
 
 .hero-copy p {
     max-width: 620px;
     margin: 0 0 1.5rem;
-    color: var(--muted);
+    color: #59656a;
     font-size: 1.05rem;
 }
 
@@ -156,32 +166,33 @@
 .stat {
     padding: 1rem;
     border-radius: var(--radius-sm);
-    background: rgba(255, 255, 255, 0.74);
-    border: 1px solid rgba(219, 228, 240, 0.9);
+    background: rgba(251, 250, 247, 0.76);
+    border: 1px solid var(--border);
 }
 
 .stat strong {
     display: block;
     font-size: 1.4rem;
     margin-bottom: 0.3rem;
+    color: var(--accent);
 }
 
 .hero-panel {
     padding: 1.25rem;
-    border-radius: 28px;
+    border-radius: 10px;
     background:
-        linear-gradient(145deg, rgba(23, 78, 166, 0.18), rgba(15, 118, 110, 0.12)),
-        #fff;
+        linear-gradient(145deg, rgba(181, 138, 74, 0.14), rgba(23, 63, 75, 0.12)),
+        #e7ebe4;
     box-shadow: var(--shadow);
-    border: 1px solid rgba(219, 228, 240, 0.8);
+    border: 1px solid var(--border);
 }
 
 .search-panel,
 .content-panel {
     padding: 1.35rem;
-    border-radius: 24px;
-    background: rgba(255, 255, 255, 0.84);
-    border: 1px solid rgba(219, 228, 240, 0.9);
+    border-radius: 8px;
+    background: rgba(251, 250, 247, 0.88);
+    border: 1px solid var(--border);
     box-shadow: var(--shadow);
 }
 
@@ -209,16 +220,16 @@
 .form-field textarea {
     width: 100%;
     border: 1px solid var(--border);
-    border-radius: 14px;
+    border-radius: 4px;
     padding: 0.9rem 1rem;
-    background: #fff;
+    background: #fffdf9;
     color: var(--text);
 }
 
 .site-footer {
     margin-top: 2rem;
     padding: 2.8rem 0;
-    background: #0f172a;
+    background: #173f4b;
     color: #dbe4f0;
 }
 

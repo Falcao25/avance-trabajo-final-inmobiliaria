@@ -29,7 +29,34 @@
 .cards-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.2rem;
+    gap: 1.5rem;
+}
+
+.cards-grid .property-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.cards-grid .property-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.cards-grid .property-body .btn {
+    align-self: flex-start;
+    margin-top: auto;
+}
+
+.cards-grid .property-meta {
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--border);
+}
+
+.cards-grid .property-meta span:first-child {
+    color: var(--primary);
+    font-weight: 700;
 }
 
 .detail-layout {
@@ -40,7 +67,7 @@
 
 .gallery-main {
     min-height: 420px;
-    border-radius: 24px;
+    border-radius: 7px;
     background-size: cover;
     background-position: center;
     margin-bottom: 1rem;
@@ -54,7 +81,7 @@
 
 .gallery-thumbs div {
     min-height: 82px;
-    border-radius: 16px;
+    border-radius: 4px;
     background-size: cover;
     background-position: center;
 }
@@ -82,7 +109,7 @@
 
 .meta-box {
     padding: 1rem;
-    border-radius: 16px;
+    border-radius: 5px;
     background: var(--surface-alt);
 }
 
@@ -121,7 +148,7 @@
 }
 
 .data-table th {
-    background: rgba(23, 78, 166, 0.06);
+    background: #e8ece5;
 }
 
 .status-pill {
