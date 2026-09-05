@@ -7,8 +7,10 @@ public class Cliente implements Serializable {
 
     private int id;
     private String nombre;
+    private String apellido;
     private String correo;
     private String telefono;
+    private String documento;
     private String mensaje;
     private LocalDateTime fechaRegistro;
 
@@ -40,6 +42,14 @@ public class Cliente implements Serializable {
         this.nombre = nombre;
     }
 
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
     public String getCorreo() {
         return correo;
     }
@@ -54,6 +64,14 @@ public class Cliente implements Serializable {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public String getDocumento() {
+        return documento;
+    }
+
+    public void setDocumento(String documento) {
+        this.documento = documento;
     }
 
     public String getMensaje() {

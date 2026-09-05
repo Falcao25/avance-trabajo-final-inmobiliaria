@@ -1,8 +1,12 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="java.util.List,com.inmobiliaria.model.Propiedad,com.inmobiliaria.model.MockData" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="java.util.List,java.util.Collections,com.inmobiliaria.model.Propiedad" %>
 <%
     List<Propiedad> propiedades = (List<Propiedad>) request.getAttribute("propiedades");
     if (propiedades == null) {
-        propiedades = MockData.obtenerPropiedades();
+        propiedades = Collections.emptyList();
+    }
+    String fuenteDatos = (String) request.getAttribute("fuenteDatos");
+    if (fuenteDatos == null) {
+        fuenteDatos = "sin cargar";
     }
 %>
 <!DOCTYPE html>
@@ -81,9 +85,13 @@
             </div>
 
             <div class="property-toolbar">
-                <p class="muted">Mostrando <strong><%= propiedades.size() %></strong> propiedades mock.</p>
+                <p class="muted">Mostrando <strong><%= propiedades.size() %></strong> propiedades de <strong><%= fuenteDatos %></strong>.</p>
                 <a class="btn btn-secondary" href="${pageContext.request.contextPath}/detalle-propiedad?id=1">Ver ejemplo de detalle</a>
             </div>
+
+            <% if (request.getAttribute("errorBaseDatos") != null) { %>
+            <div class="database-notice"><%= request.getAttribute("errorBaseDatos") %></div>
+            <% } %>
 
             <div class="cards-grid">
                 <%

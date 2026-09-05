@@ -6,19 +6,24 @@ import java.sql.SQLException;
 
 public final class Conexion {
 
+    // Valores de desarrollo. Cambiar USER y PASSWORD para el entorno local.
     private static final String HOST = "localhost";
-    private static final String PUERTO = "3306";
-    private static final String BASE_DATOS = "inmobiliaria";
-    private static final String USUARIO = "root";
-    private static final String CONTRASENA = "";
-    private static final String URL = "jdbc:mysql://" + HOST + ":" + PUERTO + "/" + BASE_DATOS
+    private static final String PORT = "3306";
+    private static final String DATABASE = "inmobiliaria";
+    private static final String USER = "root";
+    private static final String PASSWORD = "Carlos345.";
+    private static final String URL = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE
             + "?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
 
     private Conexion() {
     }
 
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+
     public static Connection conectar() throws SQLException {
-        return DriverManager.getConnection(URL, USUARIO, CONTRASENA);
+        return getConnection();
     }
 
     public static void cerrar(AutoCloseable... recursos) {

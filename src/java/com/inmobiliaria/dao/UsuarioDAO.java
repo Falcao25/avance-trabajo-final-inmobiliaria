@@ -14,7 +14,7 @@ public class UsuarioDAO {
     public List<Usuario> listar() throws SQLException {
         List<Usuario> usuarios = new ArrayList<>();
         String sql = """
-                SELECT id, nombre, correo, password, rol, activo
+                SELECT id, nombre, apellido, correo, password, rol, estado
                 FROM usuarios
                 ORDER BY id DESC
                 """;
@@ -28,7 +28,8 @@ public class UsuarioDAO {
                         rs.getString("correo"),
                         rs.getString("password"),
                         rs.getString("rol"),
-                        rs.getBoolean("activo")));
+                        rs.getBoolean("estado")));
+                usuarios.get(usuarios.size() - 1).setApellido(rs.getString("apellido"));
             }
         }
         return usuarios;
@@ -36,9 +37,9 @@ public class UsuarioDAO {
 
     public Usuario autenticar(String correo, String password) throws SQLException {
         String sql = """
-                SELECT id, nombre, correo, password, rol, activo
+                SELECT id, nombre, apellido, correo, password, rol, estado
                 FROM usuarios
-                WHERE correo = ? AND password = ? AND activo = 1
+                WHERE correo = ? AND password = ? AND estado = 1
                 """;
         try (Connection cn = Conexion.conectar();
              PreparedStatement ps = cn.prepareStatement(sql)) {
@@ -46,13 +47,15 @@ public class UsuarioDAO {
             ps.setString(2, password);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return new Usuario(
+                    Usuario usuario = new Usuario(
                             rs.getInt("id"),
                             rs.getString("nombre"),
                             rs.getString("correo"),
                             rs.getString("password"),
                             rs.getString("rol"),
-                            rs.getBoolean("activo"));
+                            rs.getBoolean("estado"));
+                    usuario.setApellido(rs.getString("apellido"));
+                    return usuario;
                 }
             }
         }

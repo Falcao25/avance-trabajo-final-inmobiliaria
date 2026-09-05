@@ -6,11 +6,14 @@ import java.time.LocalDateTime;
 public class Contacto implements Serializable {
 
     private int id;
+    private Integer propiedadId;
+    private Integer clienteId;
     private String nombre;
     private String correo;
     private String telefono;
     private String mensaje;
     private LocalDateTime fecha;
+    private String estado;
 
     public Contacto() {
     }
@@ -30,6 +33,22 @@ public class Contacto implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Integer getPropiedadId() {
+        return propiedadId;
+    }
+
+    public void setPropiedadId(Integer propiedadId) {
+        this.propiedadId = propiedadId;
+    }
+
+    public Integer getClienteId() {
+        return clienteId;
+    }
+
+    public void setClienteId(Integer clienteId) {
+        this.clienteId = clienteId;
     }
 
     public String getNombre() {
@@ -70,5 +89,13 @@ public class Contacto implements Serializable {
 
     public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

@@ -26,6 +26,13 @@
     margin: 0;
 }
 
+.database-notice {
+    padding: 0.85rem 1rem;
+    border-left: 3px solid var(--accent);
+    background: #f4ead7;
+    color: var(--primary);
+}
+
 .cards-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));

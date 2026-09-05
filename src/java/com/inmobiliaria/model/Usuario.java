@@ -1,15 +1,18 @@
 package com.inmobiliaria.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 public class Usuario implements Serializable {
 
     private int id;
     private String nombre;
+    private String apellido;
     private String correo;
     private String password;
     private String rol;
     private boolean activo;
+    private LocalDateTime fechaCreacion;
 
     public Usuario() {
     }
@@ -37,6 +40,14 @@ public class Usuario implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
     public String getCorreo() {
@@ -69,5 +80,13 @@ public class Usuario implements Serializable {
 
     public void setActivo(boolean activo) {
         this.activo = activo;
+    }
+
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(LocalDateTime fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
     }
 }

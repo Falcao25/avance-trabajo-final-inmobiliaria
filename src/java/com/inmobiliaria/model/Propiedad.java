@@ -2,6 +2,7 @@ package com.inmobiliaria.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,11 +14,15 @@ public class Propiedad implements Serializable {
     private String ubicacion;
     private String tipoOperacion;
     private String tipo;
+    private String direccion;
     private double area;
     private int habitaciones;
     private int banos;
     private String descripcion;
     private String imagenPrincipal;
+    private String estado;
+    private boolean destacada;
+    private LocalDateTime fechaPublicacion;
     private final List<String> imagenes = new ArrayList<>();
     private final List<String> caracteristicas = new ArrayList<>();
 
@@ -94,6 +99,14 @@ public class Propiedad implements Serializable {
         this.tipo = tipo;
     }
 
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
     public double getArea() {
         return area;
     }
@@ -132,6 +145,30 @@ public class Propiedad implements Serializable {
 
     public void setImagenPrincipal(String imagenPrincipal) {
         this.imagenPrincipal = imagenPrincipal;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public boolean isDestacada() {
+        return destacada;
+    }
+
+    public void setDestacada(boolean destacada) {
+        this.destacada = destacada;
+    }
+
+    public LocalDateTime getFechaPublicacion() {
+        return fechaPublicacion;
+    }
+
+    public void setFechaPublicacion(LocalDateTime fechaPublicacion) {
+        this.fechaPublicacion = fechaPublicacion;
     }
 
     public List<String> getImagenes() {
