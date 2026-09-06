@@ -94,7 +94,9 @@ public class PropiedadDAO {
         propiedad.setHabitaciones(rs.getInt("habitaciones"));
         propiedad.setBanos(rs.getInt("banios"));
         propiedad.setArea(rs.getDouble("area"));
-        propiedad.setImagenPrincipal(rs.getString("imagen"));
+        String imagen = rs.getString("imagen");
+        propiedad.setImagenPrincipal(imagen == null || imagen.isBlank()
+                ? imagenPorDefecto(propiedad.getTipo()) : imagen);
         propiedad.setEstado(rs.getString("estado"));
         propiedad.setDestacada(rs.getBoolean("destacada"));
         Timestamp fecha = rs.getTimestamp("fecha_publicacion");
@@ -115,8 +117,20 @@ public class PropiedadDAO {
         ps.setInt(8, propiedad.getHabitaciones());
         ps.setInt(9, propiedad.getBanos());
         ps.setDouble(10, propiedad.getArea());
-        ps.setString(11, propiedad.getImagenPrincipal());
+        String imagen = propiedad.getImagenPrincipal();
+        ps.setString(11, imagen == null || imagen.isBlank()
+                ? imagenPorDefecto(propiedad.getTipo()) : imagen);
         ps.setString(12, propiedad.getEstado() == null ? "DISPONIBLE" : propiedad.getEstado());
         ps.setBoolean(13, propiedad.isDestacada());
+    }
+
+    private String imagenPorDefecto(String tipo) {
+        if ("DEPARTAMENTO".equalsIgnoreCase(tipo) || "OFICINA".equalsIgnoreCase(tipo)) {
+            return "/img/propiedades/propiedad-departamento.png";
+        }
+        if ("TERRENO".equalsIgnoreCase(tipo) || "LOCAL".equalsIgnoreCase(tipo)) {
+            return "/img/propiedades/propiedad-terreno.png";
+        }
+        return "/img/propiedades/propiedad-casa.png";
     }
 }

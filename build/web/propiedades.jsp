@@ -86,7 +86,7 @@
 
             <div class="property-toolbar">
                 <p class="muted">Mostrando <strong><%= propiedades.size() %></strong> propiedades de <strong><%= fuenteDatos %></strong>.</p>
-                <a class="btn btn-secondary" href="${pageContext.request.contextPath}/detalle-propiedad?id=1">Ver ejemplo de detalle</a>
+                <!-- <a class="btn btn-secondary" href="${pageContext.request.contextPath}/detalle-propiedad?id=1">Ver ejemplo de detalle</a> -->
             </div>
 
             <% if (request.getAttribute("errorBaseDatos") != null) { %>

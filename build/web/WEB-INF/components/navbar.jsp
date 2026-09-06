@@ -10,6 +10,5 @@
         <li><a href="${pageContext.request.contextPath}/propiedades">Propiedades</a></li>
         <li><a href="${pageContext.request.contextPath}/nosotros.jsp">Nosotros</a></li>
         <li><a href="${pageContext.request.contextPath}/contacto">Contacto</a></li>
-        <li><a href="${pageContext.request.contextPath}/admin/dashboard">Administraci&oacute;n</a></li>
     </ul>
 </nav>

@@ -15,13 +15,12 @@
                 <li><a href="${pageContext.request.contextPath}/contacto">Contacto</a></li>
             </ul>
         </div>
-        <div>
-            <h4>Administración</h4>
+        <!-- <div>
+            <h4>Acceso</h4>
             <ul>
                 <li><a href="${pageContext.request.contextPath}/login">Login</a></li>
-                <li><a href="${pageContext.request.contextPath}/admin/dashboard">Dashboard</a></li>
             </ul>
-        </div>
+        </div> -->
     </div>
 </footer>
 

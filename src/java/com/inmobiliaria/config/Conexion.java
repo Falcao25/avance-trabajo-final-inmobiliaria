@@ -17,6 +17,15 @@ public final class Conexion {
 
     private Conexion() {
     }
+    static {
+    try {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+            } catch (ClassNotFoundException e) {
+            throw new ExceptionInInitializerError(
+                    "No se encontró MySQL Connector/J: " + e.getMessage()
+            );
+        }
+    }
 
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);

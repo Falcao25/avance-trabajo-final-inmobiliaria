@@ -4,44 +4,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inmobiliaria Aurora | Login</title>
+    <title>Administración | Inmobiliaria Aurora</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/propiedades.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/responsive.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin.css">
 </head>
-<body>
-<jsp:include page="/WEB-INF/components/header.jsp" />
-
-<main class="page-main">
-    <section class="section">
-        <div class="container" style="max-width: 560px;">
-            <div class="card form-card">
-                <div class="section-title">
-                    <span class="eyebrow">Administración</span>
-                    <h1>Iniciar sesión</h1>
-                    <p>Acceso demo para la primera versión. Usa <strong>admin@inmobiliaria.com</strong> y <strong>admin123</strong>.</p>
-                </div>
-                <% if (request.getAttribute("errorLogin") != null) { %>
-                <p class="status-pill" style="background: rgba(220, 38, 38, 0.1); color: #b91c1c;"><%= request.getAttribute("errorLogin") %></p>
-                <% } %>
-                <form class="form-grid" action="${pageContext.request.contextPath}/login" method="post" data-login-form>
-                    <div class="form-field" style="grid-column: 1 / -1;">
-                        <label for="usuario">Usuario</label>
-                        <input id="usuario" name="usuario" type="email" required>
-                    </div>
-                    <div class="form-field" style="grid-column: 1 / -1;">
-                        <label for="password">Contraseña</label>
-                        <input id="password" name="password" type="password" required data-login-password>
-                    </div>
-                    <div class="action-group" style="grid-column: 1 / -1;">
-                        <button class="btn btn-secondary" type="button" data-toggle-password>Mostrar</button>
-                        <button class="btn btn-primary" type="submit">Entrar</button>
-                    </div>
-                </form>
-            </div>
+<body class="admin-login-body">
+<main class="admin-login">
+    <div class="admin-login-card">
+        <a class="admin-login-brand" href="${pageContext.request.contextPath}/index.jsp">
+            <img src="${pageContext.request.contextPath}/img/logo/logo.svg" alt="Inmobiliaria Aurora">
+            <span>Inmobiliaria Aurora</span>
+        </a>
+        <div class="admin-login-heading">
+            <span class="admin-pill">Administración</span>
+            <h1>Iniciar sesión</h1>
+            <p>Acceso privado para registrar y gestionar propiedades.</p>
         </div>
-    </section>
+        <% if (request.getAttribute("errorLogin") != null) { %>
+        <p class="admin-error"><%= request.getAttribute("errorLogin") %></p>
+        <% } %>
+        <form class="admin-login-form" action="${pageContext.request.contextPath}/login" method="post" data-login-form>
+            <div class="admin-field">
+                <label for="usuario">Usuario</label>
+                <input id="usuario" name="usuario" type="email" required>
+            </div>
+            <div class="admin-field">
+                <label for="password">Contraseña</label>
+                <input id="password" name="password" type="password" required data-login-password>
+            </div>
+            <div class="admin-login-actions">
+                <button class="admin-btn admin-btn-secondary" type="button" data-toggle-password>Mostrar</button>
+                <button class="admin-btn admin-btn-primary" type="submit">Entrar al panel</button>
+            </div>
+        </form>
+        <a class="admin-login-back" href="${pageContext.request.contextPath}/index.jsp">Volver al sitio público</a>
+    </div>
 </main>
-
-<jsp:include page="/WEB-INF/components/footer.jsp" />
+<script src="${pageContext.request.contextPath}/js/login.js"></script>
+</body>
+</html>

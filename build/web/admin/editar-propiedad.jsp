@@ -1,85 +1,56 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="com.inmobiliaria.model.Propiedad,com.inmobiliaria.model.MockData" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="com.inmobiliaria.model.Propiedad" %>
 <%
+    request.setAttribute("adminTitle", "Editar propiedad");
+    request.setAttribute("adminSubtitle", "Ajusta los datos de una propiedad sin salir del panel interno.");
+    request.setAttribute("adminActive", "/admin/editar-propiedad");
     Propiedad propiedad = (Propiedad) request.getAttribute("propiedad");
-    if (propiedad == null) {
-        int id = 1;
-        try {
-            id = Integer.parseInt(String.valueOf(request.getParameter("id")));
-        } catch (Exception ignored) {
-        }
-        propiedad = MockData.obtenerPropiedadPorId(id);
-    }
 %>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inmobiliaria Aurora | Editar Propiedad</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/propiedades.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/responsive.css">
-</head>
-<body>
-<jsp:include page="/WEB-INF/components/header.jsp" />
+<jsp:include page="/WEB-INF/components/admin-shell-start.jsp" />
 
-<main class="page-main">
-    <section class="section">
-        <div class="container">
-            <div class="card form-card">
-                <div class="section-title">
-                    <span class="eyebrow">Administración</span>
-                    <h1>Editar propiedad</h1>
-                </div>
-                <% if (request.getAttribute("mensajeExito") != null) { %>
-                <p class="status-pill"><%= request.getAttribute("mensajeExito") %></p>
-                <% } %>
-                <form class="form-grid" action="${pageContext.request.contextPath}/admin/editar-propiedad" method="post">
-                    <input type="hidden" name="id" value="<%= propiedad.getId() %>">
-                    <div class="form-field">
-                        <label for="titulo">Título</label>
-                        <input id="titulo" name="titulo" type="text" value="<%= propiedad.getTitulo() %>">
-                    </div>
-                    <div class="form-field">
-                        <label for="precio">Precio</label>
-                        <input id="precio" name="precio" type="number" value="<%= propiedad.getPrecio() %>">
-                    </div>
-                    <div class="form-field">
-                        <label for="ubicacion">Ubicación</label>
-                        <input id="ubicacion" name="ubicacion" type="text" value="<%= propiedad.getUbicacion() %>">
-                    </div>
-                    <div class="form-field">
-                        <label for="tipoOperacion">Operación</label>
-                        <input id="tipoOperacion" name="tipoOperacion" type="text" value="<%= propiedad.getTipoOperacion() %>">
-                    </div>
-                    <div class="form-field">
-                        <label for="tipo">Tipo</label>
-                        <input id="tipo" name="tipo" type="text" value="<%= propiedad.getTipo() %>">
-                    </div>
-                    <div class="form-field">
-                        <label for="area">Area</label>
-                        <input id="area" name="area" type="number" step="0.1" value="<%= propiedad.getArea() %>">
-                    </div>
-                    <div class="form-field">
-                        <label for="habitaciones">Habitaciones</label>
-                        <input id="habitaciones" name="habitaciones" type="number" value="<%= propiedad.getHabitaciones() %>">
-                    </div>
-                    <div class="form-field">
-                        <label for="banos">Baños</label>
-                        <input id="banos" name="banos" type="number" value="<%= propiedad.getBanos() %>">
-                    </div>
-                    <div class="form-field" style="grid-column: 1 / -1;">
-                        <label for="descripcion">Descripcion</label>
-                        <textarea id="descripcion" name="descripcion" rows="6"><%= propiedad.getDescripcion() %></textarea>
-                    </div>
-                    <div>
-                        <button class="btn btn-primary" type="submit">Actualizar</button>
-                    </div>
-                </form>
-            </div>
+<section class="admin-panel">
+    <div class="admin-panel-header">
+        <div>
+            <span class="admin-pill">Edición</span>
+            <h2>Editar propiedad</h2>
+            <p>Actualiza los datos que se muestran en el catálogo público.</p>
         </div>
-    </section>
-</main>
+        <div class="admin-actions">
+            <a class="admin-btn admin-btn-secondary" href="${pageContext.request.contextPath}/admin/propiedades">Volver al listado</a>
+            <a class="admin-btn admin-btn-ghost" href="${pageContext.request.contextPath}/admin/dashboard">Panel general</a>
+        </div>
+    </div>
 
-<jsp:include page="/WEB-INF/components/footer.jsp" />
+    <% if (request.getAttribute("errorBaseDatos") != null) { %>
+    <p class="admin-error"><%= request.getAttribute("errorBaseDatos") %></p>
+    <% } %>
+
+    <% if (propiedad != null) { %>
+    <form class="admin-form" action="${pageContext.request.contextPath}/admin/editar-propiedad" method="post">
+        <input type="hidden" name="id" value="<%= propiedad.getId() %>">
+        <div class="admin-field"><label for="titulo">Título</label><input id="titulo" name="titulo" type="text" value="<%= propiedad.getTitulo() %>" required></div>
+        <div class="admin-field"><label for="precio">Precio</label><input id="precio" name="precio" type="number" step="0.01" value="<%= propiedad.getPrecio() %>" required></div>
+        <div class="admin-field"><label for="ubicacion">Ubicación</label><input id="ubicacion" name="ubicacion" type="text" value="<%= propiedad.getUbicacion() %>" required></div>
+        <div class="admin-field"><label for="direccion">Dirección</label><input id="direccion" name="direccion" type="text" value="<%= propiedad.getDireccion() == null ? "" : propiedad.getDireccion() %>"></div>
+        <div class="admin-field"><label for="tipoOperacion">Operación</label>
+            <select id="tipoOperacion" name="tipoOperacion"><option value="VENTA" <%= "VENTA".equals(propiedad.getTipoOperacion()) ? "selected" : "" %>>Venta</option><option value="ALQUILER" <%= "ALQUILER".equals(propiedad.getTipoOperacion()) ? "selected" : "" %>>Alquiler</option></select>
+        </div>
+        <div class="admin-field"><label for="tipo">Tipo</label>
+            <select id="tipo" name="tipo"><option value="CASA" <%= "CASA".equals(propiedad.getTipo()) ? "selected" : "" %>>Casa</option><option value="DEPARTAMENTO" <%= "DEPARTAMENTO".equals(propiedad.getTipo()) ? "selected" : "" %>>Departamento</option><option value="TERRENO" <%= "TERRENO".equals(propiedad.getTipo()) ? "selected" : "" %>>Terreno</option><option value="OFICINA" <%= "OFICINA".equals(propiedad.getTipo()) ? "selected" : "" %>>Oficina</option><option value="LOCAL" <%= "LOCAL".equals(propiedad.getTipo()) ? "selected" : "" %>>Local</option></select>
+        </div>
+        <div class="admin-field"><label for="area">Área</label><input id="area" name="area" type="number" step="0.01" min="0" value="<%= propiedad.getArea() %>" required></div>
+        <div class="admin-field"><label for="habitaciones">Habitaciones</label><input id="habitaciones" name="habitaciones" type="number" min="0" value="<%= propiedad.getHabitaciones() %>"></div>
+        <div class="admin-field"><label for="banos">Baños</label><input id="banos" name="banos" type="number" min="0" value="<%= propiedad.getBanos() %>"></div>
+        <div class="admin-field"><label for="imagen">Imagen principal</label><input id="imagen" name="imagen" type="text" value="<%= propiedad.getImagenPrincipal() == null ? "" : propiedad.getImagenPrincipal() %>"></div>
+        <div class="admin-field"><label for="estado">Estado</label>
+            <select id="estado" name="estado"><option value="DISPONIBLE" <%= "DISPONIBLE".equals(propiedad.getEstado()) ? "selected" : "" %>>Disponible</option><option value="RESERVADA" <%= "RESERVADA".equals(propiedad.getEstado()) ? "selected" : "" %>>Reservada</option><option value="VENDIDA" <%= "VENDIDA".equals(propiedad.getEstado()) ? "selected" : "" %>>Vendida</option><option value="ALQUILADA" <%= "ALQUILADA".equals(propiedad.getEstado()) ? "selected" : "" %>>Alquilada</option></select>
+        </div>
+        <label class="admin-check"><input name="destacada" type="checkbox" <%= propiedad.isDestacada() ? "checked" : "" %>> Mostrar como destacada</label>
+        <div class="admin-field" style="grid-column: 1 / -1;"><label for="descripcion">Descripción</label><textarea id="descripcion" name="descripcion" rows="6"><%= propiedad.getDescripcion() %></textarea></div>
+        <div class="admin-form-actions" style="grid-column: 1 / -1;"><button class="admin-btn admin-btn-primary" type="submit">Actualizar propiedad</button><a class="admin-btn admin-btn-secondary" href="${pageContext.request.contextPath}/admin/propiedades">Cancelar</a></div>
+    </form>
+    <% } else { %>
+    <p class="admin-error">No se encontró la propiedad solicitada.</p>
+    <% } %>
+</section>
+
+<jsp:include page="/WEB-INF/components/admin-shell-end.jsp" />
