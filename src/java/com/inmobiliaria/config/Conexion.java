@@ -5,8 +5,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public final class Conexion {
-
-    // Valores de desarrollo. Cambiar USER y PASSWORD para el entorno local.
     private static final String HOST = "localhost";
     private static final String PORT = "3306";
     private static final String DATABASE = "inmobiliaria";
@@ -41,7 +39,7 @@ public final class Conexion {
                 try {
                     recurso.close();
                 } catch (Exception ignored) {
-                    // Se ignora el error al cerrar para no ocultar la excepción original.
+                    
                 }
             }
         }
