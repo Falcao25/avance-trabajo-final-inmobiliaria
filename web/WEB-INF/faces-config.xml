@@ -4,7 +4,8 @@
               xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_4_1.xsd"
               version="4.1">
     <!-- Los beans se registran mediante CDI (@Named), no mediante managed-bean.
-         La fase 1 utiliza un postback a la misma vista; no requiere navigation-rule. -->
+         Listado y formulario utilizan navegacion implicita con outcomes y faces-redirect.
+         No se requieren navigation-rule explicitas para estos destinos. -->
     <application>
         <locale-config>
             <default-locale>es</default-locale>

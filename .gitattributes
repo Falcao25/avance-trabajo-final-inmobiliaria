@@ -1,0 +1,5 @@
+# No alterar archivos cuyo SHA-256 se valida durante la construccion/restauracion.
+web/WEB-INF/lib/*.jar -text
+web/resources/bootstrap/bootstrap.min.css -text
+web/resources/bootstrap/LICENSE -text
+*.png -text

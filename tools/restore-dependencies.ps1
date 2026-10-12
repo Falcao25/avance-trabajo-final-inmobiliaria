@@ -16,7 +16,10 @@ Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 foreach ($id in $lock['dependencies.ids'].Split(',')) {
-    $destination = Join-Path $libraryDir $lock["$id.file"]
+    $assetDir = $libraryDir
+    if ($lock.ContainsKey("$id.directory")) { $assetDir = Join-Path $projectRoot $lock["$id.directory"] }
+    if (-not $VerifyOnly) { New-Item -ItemType Directory -Force -Path $assetDir | Out-Null }
+    $destination = Join-Path $assetDir $lock["$id.file"]
     $valid = (Test-Path -LiteralPath $destination) -and
         ((Get-FileHash -LiteralPath $destination -Algorithm SHA256).Hash -eq $lock["$id.sha256"])
     if ($VerifyOnly) {
@@ -24,7 +27,14 @@ foreach ($id in $lock['dependencies.ids'].Split(',')) {
     } elseif ($Force -or -not $valid) {
         $download = [System.IO.Path]::GetTempFileName()
         try {
-            Invoke-WebRequest -UseBasicParsing -Uri $lock["$id.url"] -OutFile $download -TimeoutSec 60
+            try {
+                Invoke-WebRequest -UseBasicParsing -Uri $lock["$id.url"] -OutFile $download -TimeoutSec 20
+            } catch {
+                if (-not (Get-Command curl.exe -ErrorAction SilentlyContinue)) { throw }
+                # Mantiene la validacion TLS; tolera solo que el servicio de revocacion este sin conexion.
+                & curl.exe --ssl-revoke-best-effort --silent --show-error --fail --location --max-time 30 --output $download $lock["$id.url"]
+                if ($LASTEXITCODE -ne 0) { throw "No se pudo descargar el artefacto: $id" }
+            }
             if ((Get-FileHash -LiteralPath $download -Algorithm SHA256).Hash -ne $lock["$id.upstream.sha256"]) {
                 throw "SHA-256 del artefacto original incorrecto: $id"
             }
