@@ -1,0 +1,17 @@
+:root { --aurora-primary: #6cc3b2; }
+body {
+    color: #ecf2f7;
+    background: radial-gradient(circle at top right, #18382f 0, transparent 36%), #0f1720;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+.aurora-sidebar { background: #182430; border-right: 1px solid #30414e; }
+.aurora-sidebar .nav-link { color: #c7d3de; border-radius: .65rem; }
+.aurora-sidebar .nav-link:hover { background: #213140; color: #fff; }
+.aurora-sidebar .nav-link.active { color: #102722; background: var(--aurora-primary); font-weight: 600; }
+.aurora-card { background: #182430; border-color: #30414e; border-radius: 1rem; overflow: hidden; }
+.aurora-badge { background: #213b36; color: #8cd9c9; }
+.aurora-table { --bs-table-bg: #182430; --bs-table-hover-bg: #213140; --bs-table-color: #ecf2f7; --bs-table-border-color: #30414e; min-width: 950px; }
+.aurora-table th, .aurora-table td { padding: 1rem; }
+.aurora-table th { color: #9aa9b7; font-size: .8rem; }
+.btn-primary { --bs-btn-bg: #6cc3b2; --bs-btn-border-color: #6cc3b2; --bs-btn-color: #102722; --bs-btn-hover-bg: #8cd9c9; --bs-btn-hover-border-color: #8cd9c9; --bs-btn-hover-color: #102722; }
+@media (max-width: 991.98px) { .aurora-sidebar { border-right: 0; border-bottom: 1px solid #30414e; } }

@@ -41,13 +41,14 @@
         <nav class="admin-nav" aria-label="Navegacion de administracion">
             <a class="<%= dashboardClass %>" href="<%= contextPath %>/admin/dashboard">Panel general</a>
             <a class="<%= propiedadesClass %>" href="<%= contextPath %>/admin/propiedades">Propiedades</a>
+            <a href="<%= contextPath %>/admin/propiedades-jsf.xhtml">Inventario de propiedades (JSF)</a>
             <a class="<%= clientesClass %>" href="<%= contextPath %>/admin/clientes">Contactos</a>
             <a class="<%= usuariosClass %>" href="<%= contextPath %>/admin/usuarios">Usuarios</a>
         </nav>
 
         <div class="admin-sidebar-actions">
             <a class="admin-btn admin-btn-ghost" href="<%= contextPath %>/index.jsp">Volver al sitio</a>
-            <a class="admin-btn admin-btn-secondary" href="<%= contextPath %>/login">Cerrar sesion</a>
+            <a class="admin-btn admin-btn-secondary" href="<%= contextPath %>/logout">Cerrar sesion</a>
         </div>
     </aside>
 
