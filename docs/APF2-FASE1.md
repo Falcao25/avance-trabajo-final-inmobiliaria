@@ -1,5 +1,9 @@
 # APF2 - Fase 1: preparacion de JSF y CDI
 
+> Nota de entrega: esta fase describe su validacion historica. La configuracion
+> JDBC actual es externa; consultar APF2-PREPARACION-REPOSITORIO.md. Los resultados
+> generados y configuraciones privadas se conservan solo localmente.
+
 ## Alcance
 
 Implementado en la rama `apf2-jsf`, creada desde `main` en el commit `18ca4c4`.

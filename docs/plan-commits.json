@@ -1,0 +1,156 @@
+{
+    "commits":  [
+                    {
+                        "archivos":  [
+                                         ".gitignore",
+                                         "config/database.example.properties",
+                                         "database/inmobiliaria.sql",
+                                         "src/java/com/inmobiliaria/config/DatabaseSettings.java",
+                                         "src/java/com/inmobiliaria/config/Conexion.java",
+                                         "tools/Phase3Database.java",
+                                         "tools/start-test-tomcat.ps1"
+                                     ],
+                        "titulo":  "chore(security): externalizar JDBC y excluir archivos privados y generados",
+                        "retirarDelIndiceSinBorrar":  [
+                                                          "build/web/META-INF/MANIFEST.MF",
+                                                          "build/web/META-INF/context.xml",
+                                                          "build/web/WEB-INF/beans.xml",
+                                                          "build/web/WEB-INF/classes/com/inmobiliaria/bean/PruebaJsfBean.class",
+                                                          "build/web/WEB-INF/classes/com/inmobiliaria/config/Conexion.class",
+                                                          "build/web/WEB-INF/classes/com/inmobiliaria/config/TestConexion.class",
+                                                          "build/web/WEB-INF/classes/com/inmobiliaria/controller/AdminServlet.class",
+                                                          "build/web/WEB-INF/classes/com/inmobiliaria/controller/ContactoServlet.class",
+                                                          "build/web/WEB-INF/classes/com/inmobiliaria/controller/LoginServlet.class",
+                                                          "build/web/WEB-INF/classes/com/inmobiliaria/controller/PropiedadServlet.class",
+                                                          "build/web/WEB-INF/classes/com/inmobiliaria/dao/ClienteDAO.class",
+                                                          "build/web/WEB-INF/classes/com/inmobiliaria/dao/PropiedadDAO.class",
+                                                          "build/web/WEB-INF/classes/com/inmobiliaria/dao/UsuarioDAO.class",
+                                                          "build/web/WEB-INF/classes/com/inmobiliaria/model/Cliente.class",
+                                                          "build/web/WEB-INF/classes/com/inmobiliaria/model/Contacto.class",
+                                                          "build/web/WEB-INF/classes/com/inmobiliaria/model/MockData.class",
+                                                          "build/web/WEB-INF/classes/com/inmobiliaria/model/Propiedad.class",
+                                                          "build/web/WEB-INF/classes/com/inmobiliaria/model/Usuario.class",
+                                                          "build/web/WEB-INF/components/admin-shell-end.jsp",
+                                                          "build/web/WEB-INF/components/admin-shell-start.jsp",
+                                                          "build/web/WEB-INF/components/footer.jsp",
+                                                          "build/web/WEB-INF/components/header.jsp",
+                                                          "build/web/WEB-INF/components/navbar.jsp",
+                                                          "build/web/WEB-INF/faces-config.xml",
+                                                          "build/web/WEB-INF/lib/jakarta.faces-4.1.1.jar",
+                                                          "build/web/WEB-INF/lib/mysql-connector-j-26.7.0.jar",
+                                                          "build/web/WEB-INF/lib/weld-servlet-shaded-6.0.3.Final-tomcat11.jar",
+                                                          "build/web/WEB-INF/web.xml",
+                                                          "build/web/admin/clientes.jsp",
+                                                          "build/web/admin/dashboard.jsp",
+                                                          "build/web/admin/editar-propiedad.jsp",
+                                                          "build/web/admin/nueva-propiedad.jsp",
+                                                          "build/web/admin/propiedades.jsp",
+                                                          "build/web/admin/usuarios.jsp",
+                                                          "build/web/contacto.jsp",
+                                                          "build/web/css/admin.css",
+                                                          "build/web/css/home.css",
+                                                          "build/web/css/layout.css",
+                                                          "build/web/css/propiedades.css",
+                                                          "build/web/css/responsive.css",
+                                                          "build/web/css/styles.css",
+                                                          "build/web/detalle-propiedad.jsp",
+                                                          "build/web/img/icons/.gitkeep",
+                                                          "build/web/img/logo/logo.svg",
+                                                          "build/web/img/propiedades/propiedad-1.svg",
+                                                          "build/web/img/propiedades/propiedad-2.svg",
+                                                          "build/web/img/propiedades/propiedad-3.svg",
+                                                          "build/web/img/propiedades/propiedad-casa.png",
+                                                          "build/web/img/propiedades/propiedad-departamento.png",
+                                                          "build/web/img/propiedades/propiedad-terreno.png",
+                                                          "build/web/index.jsp",
+                                                          "build/web/js/login.js",
+                                                          "build/web/js/main.js",
+                                                          "build/web/js/propiedades.js",
+                                                          "build/web/login.jsp",
+                                                          "build/web/nosotros.jsp",
+                                                          "build/web/propiedades.jsp",
+                                                          "build/web/prueba-jsf.xhtml",
+                                                          "nbproject/private/private.properties",
+                                                          "nbproject/private/private.xml"
+                                                      ]
+                    },
+                    {
+                        "archivos":  [
+                                         ".gitattributes",
+                                         "build.xml",
+                                         "web/WEB-INF/faces-config.xml",
+                                         "tools/dependencies.properties",
+                                         "tools/restore-dependencies.ps1",
+                                         "web/resources/bootstrap/bootstrap.min.css",
+                                         "web/resources/bootstrap/LICENSE"
+                                     ],
+                        "titulo":  "chore(web): consolidar configuracion JSF y Bootstrap reproducible",
+                        "retirarDelIndiceSinBorrar":  [
+
+                                                      ]
+                    },
+                    {
+                        "archivos":  [
+                                         "src/java/com/inmobiliaria/bean/PropiedadListaBean.java",
+                                         "src/java/com/inmobiliaria/filter/AdminSessionFilter.java",
+                                         "web/admin/propiedades-jsf.xhtml",
+                                         "web/WEB-INF/components/admin-shell-start.jsp",
+                                         "web/resources/css/propiedades-jsf.css"
+                                     ],
+                        "titulo":  "feat(jsf): integrar listado inmobiliario y proteccion administrativa",
+                        "retirarDelIndiceSinBorrar":  [
+
+                                                      ]
+                    },
+                    {
+                        "archivos":  [
+                                         "src/java/com/inmobiliaria/bean/PropiedadFormularioBean.java",
+                                         "src/java/com/inmobiliaria/validation/PropiedadValidacion.java",
+                                         "src/java/com/inmobiliaria/controller/AdminServlet.java",
+                                         "web/admin/propiedad-formulario.xhtml"
+                                     ],
+                        "titulo":  "feat(jsf): agregar formularios y validaciones compartidas",
+                        "retirarDelIndiceSinBorrar":  [
+
+                                                      ]
+                    },
+                    {
+                        "archivos":  [
+                                         "tools/PropiedadDaoSnapshot.java",
+                                         "tools/PropiedadListaEstadosTest.java",
+                                         "tools/PropiedadFormularioTest.java",
+                                         "tools/capture-phase2.mjs",
+                                         "tools/test-phase2.ps1",
+                                         "tools/test-phase3.ps1",
+                                         "tools/test-phase3-jsp.ps1",
+                                         "tools/test-phase4-navigation.mjs"
+                                     ],
+                        "titulo":  "test(apf2): documentar pruebas reproducibles con aislamiento MySQL",
+                        "retirarDelIndiceSinBorrar":  [
+
+                                                      ]
+                    },
+                    {
+                        "archivos":  [
+                                         "README.md",
+                                         "docs/APF2-FASE1.md",
+                                         "docs/APF2-FASE2.md",
+                                         "docs/APF2-FASE3.md",
+                                         "docs/APF2-FASE4.md",
+                                         "docs/evidencias/fase4/01-netbeans-webxml.png",
+                                         "docs/evidencias/fase4/02-bootstrap.png",
+                                         "docs/evidencias/fase4/03-registro-jsf.png",
+                                         "docs/evidencias/fase4/04-tabla-mysql.png",
+                                         "docs/evidencias/fase4/responsivo-registro-fase3.png",
+                                         "docs/APF2-PREPARACION-REPOSITORIO.md",
+                                         "docs/plan-commits.json"
+                                     ],
+                        "titulo":  "docs(apf2): consolidar fases, evidencias y auditoria de publicacion",
+                        "retirarDelIndiceSinBorrar":  [
+
+                                                      ]
+                    }
+                ],
+    "rama":  "apf2-jsf",
+    "estado":  "propuesta sin commits ejecutados"
+}
