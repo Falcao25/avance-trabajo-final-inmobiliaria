@@ -1,1 +1,17 @@
 /dist/
+/build/
+/nbproject/private/
+/config/database.local.properties
+/database/local/
+*.class
+*.war
+*.log
+*.tmp
+*.bak
+*.hprof
+.env
+.env.*
+!.env.example
+/node_modules/
+/docs/evidencias/**/*.tsv
+/docs/evidencias/**/*.json
