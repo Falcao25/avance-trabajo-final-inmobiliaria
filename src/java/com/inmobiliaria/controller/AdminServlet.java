@@ -3,6 +3,7 @@ package com.inmobiliaria.controller;
 import com.inmobiliaria.dao.PropiedadDAO;
 import com.inmobiliaria.model.MockData;
 import com.inmobiliaria.model.Propiedad;
+import com.inmobiliaria.validation.PropiedadValidacion;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,9 +12,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.Collections;
+import java.util.List;
 
 @WebServlet(urlPatterns = {
     "/admin", "/admin/dashboard", "/admin/propiedades", "/admin/nueva-propiedad",
@@ -84,13 +85,17 @@ public class AdminServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             Propiedad propiedad = leerPropiedad(request);
-            propiedad.setId(parseRequiredInt(request.getParameter("id"), "El ID de la propiedad no es válido."));
+            propiedad.setId(PropiedadValidacion.idPositivo(request.getParameter("id")));
             if (!propiedadDAO.actualizar(propiedad)) throw new SQLException("Propiedad no encontrada.");
             guardarMensaje(request.getSession(), "Propiedad actualizada correctamente en MySQL.");
             response.sendRedirect(request.getContextPath() + "/admin/propiedades");
         } catch (IllegalArgumentException | SQLException e) {
             getServletContext().log("No fue posible actualizar la propiedad en MySQL", e);
             request.setAttribute("errorBaseDatos", "No se pudo actualizar la propiedad en MySQL.");
+            Propiedad introducida = propiedadDesdeFormulario(request);
+            try { introducida.setId(PropiedadValidacion.idPositivo(request.getParameter("id"))); }
+            catch (IllegalArgumentException ignored) { }
+            request.setAttribute("propiedad", introducida);
             forward(request, response, "/admin/editar-propiedad.jsp");
         }
     }
@@ -101,7 +106,7 @@ public class AdminServlet extends HttpServlet {
             return;
         }
         try {
-            propiedadDAO.eliminar(parseRequiredInt(request.getParameter("id"), "El ID no es válido."));
+            propiedadDAO.eliminar(PropiedadValidacion.idPositivo(request.getParameter("id")));
             guardarMensaje(request.getSession(), "Propiedad eliminada correctamente.");
         } catch (IllegalArgumentException | SQLException e) {
             getServletContext().log("No fue posible eliminar la propiedad", e);
@@ -128,7 +133,7 @@ public class AdminServlet extends HttpServlet {
     private void mostrarEdicion(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            int id = parseRequiredInt(request.getParameter("id"), "El ID no es válido.");
+            int id = PropiedadValidacion.idPositivo(request.getParameter("id"));
             Propiedad propiedad = propiedadDAO.buscarPorId(id);
             if (propiedad == null) {
                 response.sendRedirect(request.getContextPath() + "/admin/propiedades");
@@ -155,62 +160,15 @@ public class AdminServlet extends HttpServlet {
     }
 
     private Propiedad leerPropiedad(HttpServletRequest request) {
-        Propiedad propiedad = new Propiedad();
-        propiedad.setTitulo(requerido(request, "titulo", "El título es obligatorio."));
-        propiedad.setDescripcion(valor(request.getParameter("descripcion")));
-        propiedad.setUbicacion(requerido(request, "ubicacion", "La ubicación es obligatoria."));
-        propiedad.setDireccion(valor(request.getParameter("direccion")));
-        propiedad.setTipo(requerido(request, "tipo", "El tipo es obligatorio.").toUpperCase());
-        propiedad.setTipoOperacion(requerido(request, "tipoOperacion", "La operación es obligatoria.").toUpperCase());
-        propiedad.setPrecio(parseDecimal(request.getParameter("precio"), "El precio debe ser un número válido."));
-        propiedad.setArea(parseDouble(request.getParameter("area"), "El área debe ser un número válido."));
-        propiedad.setHabitaciones(parseNonNegativeInt(request.getParameter("habitaciones"), "Las habitaciones deben ser un número válido."));
-        propiedad.setBanos(parseNonNegativeInt(request.getParameter("banos"), "Los baños deben ser un número válido."));
-        propiedad.setImagenPrincipal(valor(request.getParameter("imagen")));
-        String estado = valor(request.getParameter("estado"));
-        propiedad.setEstado(estado.isEmpty() ? "DISPONIBLE" : estado.toUpperCase());
-        propiedad.setDestacada(request.getParameter("destacada") != null);
+        Propiedad propiedad = PropiedadValidacion.desdeParametros(request::getParameter, true);
+        List<String> errores = PropiedadValidacion.validar(propiedad);
+        if (!errores.isEmpty()) throw new IllegalArgumentException(String.join(" ", errores));
+        PropiedadValidacion.normalizar(propiedad);
         return propiedad;
     }
 
     private Propiedad propiedadDesdeFormulario(HttpServletRequest request) {
-        try { return leerPropiedad(request); } catch (IllegalArgumentException e) { return new Propiedad(); }
-    }
-
-    private String requerido(HttpServletRequest request, String nombre, String mensaje) {
-        String resultado = valor(request.getParameter(nombre));
-        if (resultado.isEmpty()) throw new IllegalArgumentException(mensaje);
-        return resultado;
-    }
-
-    private String valor(String texto) { return texto == null ? "" : texto.trim(); }
-
-    private BigDecimal parseDecimal(String texto, String mensaje) {
-        try {
-            BigDecimal resultado = new BigDecimal(valor(texto));
-            if (resultado.signum() < 0) throw new NumberFormatException();
-            return resultado;
-        } catch (NumberFormatException e) { throw new IllegalArgumentException(mensaje); }
-    }
-
-    private double parseDouble(String texto, String mensaje) {
-        try {
-            double resultado = Double.parseDouble(valor(texto));
-            if (resultado < 0) throw new NumberFormatException();
-            return resultado;
-        } catch (NumberFormatException e) { throw new IllegalArgumentException(mensaje); }
-    }
-
-    private int parseNonNegativeInt(String texto, String mensaje) {
-        if (valor(texto).isEmpty()) return 0;
-        int resultado = parseRequiredInt(texto, mensaje);
-        if (resultado < 0) throw new IllegalArgumentException(mensaje);
-        return resultado;
-    }
-
-    private int parseRequiredInt(String texto, String mensaje) {
-        try { return Integer.parseInt(valor(texto)); }
-        catch (NumberFormatException e) { throw new IllegalArgumentException(mensaje); }
+        return PropiedadValidacion.desdeParametros(request::getParameter, false);
     }
 
     private void guardarMensaje(HttpSession session, String mensaje) { session.setAttribute("mensajeExito", mensaje); }

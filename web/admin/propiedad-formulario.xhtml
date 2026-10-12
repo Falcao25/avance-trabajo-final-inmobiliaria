@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html" xmlns:f="jakarta.faces.core" lang="es" data-bs-theme="dark">
+    <f:metadata>
+        <f:viewParam name="id" value="#{propiedadFormularioBean.id}" />
+        <f:viewAction action="#{propiedadFormularioBean.preparar}" onPostback="false" />
+    </f:metadata>
+    <h:head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Inmobiliaria Aurora | #{propiedadFormularioBean.edicion ? 'Editar' : 'Registrar'} propiedad</title>
+        <h:outputStylesheet library="bootstrap" name="bootstrap.min.css" />
+        <h:outputStylesheet name="css/propiedades-jsf.css" />
+    </h:head>
+    <h:body>
+        <div class="container-fluid"><div class="row min-vh-100">
+            <aside class="col-12 col-lg-3 col-xl-2 aurora-sidebar p-4">
+                <a class="d-flex align-items-center gap-3 text-decoration-none mb-4" href="#{request.contextPath}/admin/dashboard">
+                    <img src="#{request.contextPath}/img/logo/logo.svg" width="42" height="42" alt="Inmobiliaria Aurora" />
+                    <span class="fw-semibold text-light">Inmobiliaria Aurora<small class="d-block text-secondary">Centro de administración</small></span>
+                </a>
+                <nav class="nav nav-pills flex-column gap-2" aria-label="Navegación administrativa">
+                    <a class="nav-link" href="#{request.contextPath}/admin/dashboard">Panel general</a>
+                    <h:link styleClass="nav-link #{propiedadFormularioBean.edicion ? 'active' : ''}" outcome="/admin/propiedades-jsf" value="Inventario de propiedades" />
+                    <h:link styleClass="nav-link #{propiedadFormularioBean.edicion ? '' : 'active'}" outcome="/admin/propiedad-formulario" value="Registrar propiedad" />
+                    <a class="nav-link" href="#{request.contextPath}/admin/propiedades">Gestión anterior</a>
+                </nav>
+                <a class="btn btn-outline-light btn-sm mt-4" href="#{request.contextPath}/logout">Cerrar sesión</a>
+            </aside>
+            <main class="col-12 col-lg-9 col-xl-10 p-3 p-md-4 p-xl-5">
+                <header class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+                    <div>
+                        <span class="badge aurora-badge mb-2">Gestión inmobiliaria</span>
+                        <h1 class="h2">#{propiedadFormularioBean.edicion ? 'Editar propiedad' : 'Registrar propiedad'}</h1>
+                        <p class="text-secondary mb-0">Completa la información del inmueble. Los campos con * son obligatorios.</p>
+                    </div>
+                    <h:link styleClass="btn btn-outline-light" outcome="/admin/propiedades-jsf" value="Volver al listado" />
+                </header>
+                <h:messages id="mensajes" globalOnly="true" layout="list" showSummary="true" showDetail="false"
+                            styleClass="list-unstyled" errorClass="alert alert-danger" infoClass="alert alert-success" />
+                <h:form id="propiedad" rendered="#{propiedadFormularioBean.habilitado}" styleClass="card aurora-card">
+                    <div class="card-body p-3 p-md-4">
+                        <h:panelGroup layout="block" rendered="#{propiedadFormularioBean.edicion}" styleClass="mb-3 text-secondary">
+                            Identificador: <h:outputText id="identificador" value="#{propiedadFormularioBean.propiedad.id}" />
+                        </h:panelGroup>
+                        <div class="row g-3">
+                            <div class="col-12 col-md-8">
+                                <h:outputLabel for="titulo" value="Título *" styleClass="form-label" />
+                                <h:inputText id="titulo" value="#{propiedadFormularioBean.propiedad.titulo}" required="true" requiredMessage="El título es obligatorio." styleClass="form-control" />
+                                <h:message for="titulo" styleClass="text-danger small" />
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <h:outputLabel for="precio" value="Precio ($) *" styleClass="form-label" />
+                                <h:inputText id="precio" value="#{propiedadFormularioBean.propiedad.precio}" converter="jakarta.faces.BigDecimal" required="true"
+                                             requiredMessage="El precio es obligatorio." converterMessage="El precio debe ser un número válido con punto decimal." styleClass="form-control" />
+                                <h:message for="precio" styleClass="text-danger small" />
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <h:outputLabel for="ubicacion" value="Ubicación *" styleClass="form-label" />
+                                <h:inputText id="ubicacion" value="#{propiedadFormularioBean.propiedad.ubicacion}" required="true" requiredMessage="La ubicación es obligatoria." styleClass="form-control" />
+                                <h:message for="ubicacion" styleClass="text-danger small" />
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <h:outputLabel for="direccion" value="Dirección" styleClass="form-label" />
+                                <h:inputText id="direccion" value="#{propiedadFormularioBean.propiedad.direccion}" styleClass="form-control" />
+                                <h:message for="direccion" styleClass="text-danger small" />
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <h:outputLabel for="tipo" value="Tipo de inmueble *" styleClass="form-label" />
+                                <h:selectOneMenu id="tipo" value="#{propiedadFormularioBean.propiedad.tipo}" required="true" requiredMessage="El tipo es obligatorio." styleClass="form-select">
+                                    <f:selectItem itemValue="" itemLabel="Selecciona un tipo" noSelectionOption="true" />
+                                    <f:selectItems value="#{propiedadFormularioBean.tipos}" />
+                                </h:selectOneMenu>
+                                <h:message for="tipo" styleClass="text-danger small" />
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <h:outputLabel for="operacion" value="Operación *" styleClass="form-label" />
+                                <h:selectOneMenu id="operacion" value="#{propiedadFormularioBean.propiedad.tipoOperacion}" required="true" requiredMessage="La operación es obligatoria." styleClass="form-select">
+                                    <f:selectItems value="#{propiedadFormularioBean.operaciones}" />
+                                </h:selectOneMenu>
+                                <h:message for="operacion" styleClass="text-danger small" />
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <h:outputLabel for="estado" value="Estado *" styleClass="form-label" />
+                                <h:selectOneMenu id="estado" value="#{propiedadFormularioBean.propiedad.estado}" required="true" requiredMessage="El estado es obligatorio." styleClass="form-select">
+                                    <f:selectItems value="#{propiedadFormularioBean.estados}" />
+                                </h:selectOneMenu>
+                                <h:message for="estado" styleClass="text-danger small" />
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <h:outputLabel for="area" value="Área (m²) *" styleClass="form-label" />
+                                <h:inputText id="area" value="#{propiedadFormularioBean.propiedad.area}" required="true" requiredMessage="El área es obligatoria."
+                                             converterMessage="El área debe ser un número válido con punto decimal." styleClass="form-control" />
+                                <h:message for="area" styleClass="text-danger small" />
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <h:outputLabel for="habitaciones" value="Habitaciones" styleClass="form-label" />
+                                <h:inputText id="habitaciones" value="#{propiedadFormularioBean.propiedad.habitaciones}" converterMessage="Las habitaciones deben ser un número entero válido." styleClass="form-control" />
+                                <h:message for="habitaciones" styleClass="text-danger small" />
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <h:outputLabel for="banos" value="Baños" styleClass="form-label" />
+                                <h:inputText id="banos" value="#{propiedadFormularioBean.propiedad.banos}" converterMessage="Los baños deben ser un número entero válido." styleClass="form-control" />
+                                <h:message for="banos" styleClass="text-danger small" />
+                            </div>
+                            <div class="col-12">
+                                <h:outputLabel for="imagen" value="Ruta de la imagen principal" styleClass="form-label" />
+                                <h:inputText id="imagen" value="#{propiedadFormularioBean.propiedad.imagenPrincipal}" styleClass="form-control" />
+                                <div class="form-text">Déjala vacía para utilizar la imagen predeterminada del inmueble.</div>
+                                <h:message for="imagen" styleClass="text-danger small" />
+                            </div>
+                            <div class="col-12">
+                                <h:outputLabel for="descripcion" value="Descripción" styleClass="form-label" />
+                                <h:inputTextarea id="descripcion" value="#{propiedadFormularioBean.propiedad.descripcion}" rows="4" styleClass="form-control" />
+                                <h:message for="descripcion" styleClass="text-danger small" />
+                            </div>
+                            <div class="col-12"><div class="form-check">
+                                <h:selectBooleanCheckbox id="destacada" value="#{propiedadFormularioBean.propiedad.destacada}" styleClass="form-check-input" />
+                                <h:outputLabel for="destacada" value="Mostrar como destacada" styleClass="form-check-label" />
+                            </div></div>
+                        </div>
+                        <div class="d-flex flex-wrap gap-2 mt-4">
+                            <h:commandButton id="guardar" value="#{propiedadFormularioBean.edicion ? 'Actualizar propiedad' : 'Registrar propiedad'}" action="#{propiedadFormularioBean.guardar}" styleClass="btn btn-primary" />
+                            <h:link outcome="/admin/propiedades-jsf" value="Cancelar" styleClass="btn btn-outline-light" />
+                        </div>
+                    </div>
+                </h:form>
+            </main>
+        </div></div>
+    </h:body>
+</html>
