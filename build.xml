@@ -10,6 +10,29 @@
 <project name="avance-proyecto-final-inmobiliaria" default="default" basedir=".">
     <description>Builds, tests, and runs the project avance-proyecto-final-inmobiliaria.</description>
     <import file="nbproject/build-impl.xml"/>
+    <!-- Extension soportada por NetBeans: no editar build-impl.xml generado. -->
+    <target name="-pre-compile">
+        <fail message="APF2 requiere construir con JDK 21. Selecciona esa plataforma en NetBeans o configura JAVA_HOME.">
+            <condition><not><equals arg1="${java.specification.version}" arg2="21"/></not></condition>
+        </fail>
+        <property file="tools/dependencies.properties"/>
+        <available file="${file.reference.mysql-connector-j-26.7.0.jar}" property="mysql.present"/>
+        <available file="${file.reference.jakarta.faces-4.1.1.jar}" property="faces.present"/>
+        <available file="${file.reference.weld-servlet-shaded-6.0.3.Final-tomcat11.jar}" property="weld.present"/>
+        <fail message="Faltan bibliotecas. Ejecuta tools/restore-dependencies.ps1.">
+            <condition><not><and><isset property="mysql.present"/><isset property="faces.present"/><isset property="weld.present"/></and></not></condition>
+        </fail>
+        <checksum file="${file.reference.mysql-connector-j-26.7.0.jar}" algorithm="SHA-256" property="mysql.actual.sha256"/>
+        <checksum file="${file.reference.jakarta.faces-4.1.1.jar}" algorithm="SHA-256" property="faces.actual.sha256"/>
+        <checksum file="${file.reference.weld-servlet-shaded-6.0.3.Final-tomcat11.jar}" algorithm="SHA-256" property="weld.actual.sha256"/>
+        <fail message="Las bibliotecas no coinciden con tools/dependencies.properties. Ejecuta tools/restore-dependencies.ps1.">
+            <condition><not><and>
+                <equals arg1="${mysql.actual.sha256}" arg2="${mysql.sha256}"/>
+                <equals arg1="${faces.actual.sha256}" arg2="${faces.sha256}"/>
+                <equals arg1="${weld.actual.sha256}" arg2="${weld.sha256}"/>
+            </and></not></condition>
+        </fail>
+    </target>
     <!--
 
     There exist several targets which are by default empty and which can be 
