@@ -1,5 +1,6 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="java.util.List,com.inmobiliaria.model.Propiedad,com.inmobiliaria.model.Cliente,com.inmobiliaria.model.Usuario,com.inmobiliaria.model.MockData" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="java.util.List,com.inmobiliaria.model.Propiedad,com.inmobiliaria.model.Contacto,com.inmobiliaria.model.Usuario,java.util.Collections,com.inmobiliaria.util.Html" %>
 <%
+    if (request.getAttribute("propiedades") == null) { response.sendRedirect(request.getContextPath() + "/admin/dashboard"); return; }
     request.setAttribute("adminTitle", "Panel general");
     request.setAttribute("adminSubtitle", "Resumen de las métricas del negocio.");
     request.setAttribute("adminActive", "/admin/dashboard");
@@ -7,15 +8,15 @@
 
     List<Propiedad> propiedades = (List<Propiedad>) request.getAttribute("propiedades");
     if (propiedades == null) {
-        propiedades = MockData.obtenerPropiedades();
+        propiedades = Collections.emptyList();
     }
-    List<Cliente> clientes = (List<Cliente>) request.getAttribute("clientes");
-    if (clientes == null) {
-        clientes = MockData.obtenerClientes();
+    List<Contacto> contactos = (List<Contacto>) request.getAttribute("contactos");
+    if (contactos == null) {
+        contactos = Collections.emptyList();
     }
     List<Usuario> usuarios = (List<Usuario>) request.getAttribute("usuarios");
     if (usuarios == null) {
-        usuarios = MockData.obtenerUsuarios();
+        usuarios = Collections.emptyList();
     }
     long disponibles = propiedades.stream()
             .filter(propiedad -> "DISPONIBLE".equals(propiedad.getEstado()))
@@ -39,13 +40,13 @@
     </div>
     <div class="col-12 col-md-6 col-xl-3">
     <article class="card admin-card h-100">
-        <strong><%= clientes.size() %></strong>
+        <strong><%= request.getAttribute("errorContactos") == null ? String.valueOf(contactos.size()) : "No disponible" %></strong>
         <span>Contactos recibidos</span>
     </article>
     </div>
     <div class="col-12 col-md-6 col-xl-3">
     <article class="card admin-card h-100">
-        <strong><%= usuarios.size() %></strong>
+        <strong><%= request.getAttribute("errorUsuarios") == null ? String.valueOf(usuarios.size()) : "No disponible" %></strong>
         <span>Usuarios del sistema</span>
     </article>
     </div>

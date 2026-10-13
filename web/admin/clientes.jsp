@@ -1,12 +1,13 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="java.util.List,com.inmobiliaria.model.Cliente,com.inmobiliaria.model.MockData" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="java.util.List,com.inmobiliaria.model.Contacto,java.util.Collections,com.inmobiliaria.util.Html" %>
 <%
+    if (request.getAttribute("contactos") == null) { response.sendRedirect(request.getContextPath() + "/admin/clientes"); return; }
     request.setAttribute("adminTitle", "Contactos recibidos");
     request.setAttribute("adminSubtitle", "Mensajes y consultas llegadas desde el formulario del sitio.");
     request.setAttribute("adminActive", "/admin/clientes");
 
-    List<Cliente> clientes = (List<Cliente>) request.getAttribute("clientes");
-    if (clientes == null) {
-        clientes = MockData.obtenerClientes();
+    List<Contacto> contactos = (List<Contacto>) request.getAttribute("contactos");
+    if (contactos == null) {
+        contactos = Collections.emptyList();
     }
 %>
 <jsp:include page="/WEB-INF/components/admin-shell-start.jsp" />
@@ -21,6 +22,11 @@
         <a class="admin-btn admin-btn-secondary" href="${pageContext.request.contextPath}/admin/dashboard">Volver al panel</a>
     </div>
 
+    <% if (request.getAttribute("errorContactos") != null) { %>
+    <p class="admin-error"><%= Html.escapar(request.getAttribute("errorContactos")) %></p>
+    <% } else if (contactos.isEmpty()) { %>
+    <p class="admin-note">No hay registros disponibles.</p>
+    <% } %>
     <div class="admin-table-wrap">
         <table class="admin-table">
             <thead>
@@ -32,12 +38,12 @@
             </tr>
             </thead>
             <tbody>
-            <% for (Cliente cliente : clientes) { %>
+            <% for (Contacto contacto : contactos) { %>
             <tr>
-                <td><%= cliente.getNombre() %></td>
-                <td><%= cliente.getCorreo() %></td>
-                <td><%= cliente.getTelefono() %></td>
-                <td><%= cliente.getMensaje() %></td>
+                <td><%= Html.escapar(contacto.getNombre()) %></td>
+                <td><%= Html.escapar(contacto.getCorreo()) %></td>
+                <td><%= Html.escapar(contacto.getTelefono()) %></td>
+                <td><%= Html.escapar(contacto.getMensaje()) %></td>
             </tr>
             <% } %>
             </tbody>

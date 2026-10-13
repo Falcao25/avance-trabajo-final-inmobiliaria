@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="com.inmobiliaria.model.Contacto,com.inmobiliaria.util.Html" %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -24,22 +24,26 @@
                 <% if (request.getAttribute("mensajeExito") != null) { %>
                 <p class="status-pill"><%= request.getAttribute("mensajeExito") %></p>
                 <% } %>
+                <% if (request.getAttribute("errorContacto") != null) { %>
+                <p class="database-notice"><%= Html.escapar(request.getAttribute("errorContacto")) %></p>
+                <% } %>
+                <% Contacto datosContacto = (Contacto) request.getAttribute("contacto"); %>
                 <form class="form-grid" action="${pageContext.request.contextPath}/contacto" method="post">
                     <div class="form-field">
                         <label for="nombre">Nombre</label>
-                        <input id="nombre" name="nombre" type="text" required>
+                        <input id="nombre" name="nombre" maxlength="120" value="<%= Html.escapar(datosContacto == null ? null : datosContacto.getNombre()) %>" type="text" required>
                     </div>
                     <div class="form-field">
                         <label for="correo">Correo</label>
-                        <input id="correo" name="correo" type="email" required>
+                        <input id="correo" name="correo" maxlength="160" value="<%= Html.escapar(datosContacto == null ? null : datosContacto.getCorreo()) %>" type="email" required>
                     </div>
                     <div class="form-field">
                         <label for="telefono">Teléfono</label>
-                        <input id="telefono" name="telefono" type="tel" required>
+                        <input id="telefono" name="telefono" maxlength="30" value="<%= Html.escapar(datosContacto == null ? null : datosContacto.getTelefono()) %>" type="tel" required>
                     </div>
                     <div class="form-field" style="grid-column: 1 / -1;">
                         <label for="mensaje">Mensaje</label>
-                        <textarea id="mensaje" name="mensaje" rows="6" required></textarea>
+                        <textarea id="mensaje" name="mensaje" rows="6" required><%= Html.escapar(datosContacto == null ? null : datosContacto.getMensaje()) %></textarea>
                     </div>
                     <div>
                         <button class="btn btn-primary" type="submit">Enviar mensaje</button>

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="java.util.List,java.util.Collections,com.inmobiliaria.model.Propiedad" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="com.inmobiliaria.util.Html,java.util.List,java.util.Collections,com.inmobiliaria.model.Propiedad" %>
 <%!
     private String atributoSeguro(String valor) {
         return valor == null ? "" : valor.replace("&", "&amp;")
@@ -93,7 +93,7 @@
 
             <div class="property-toolbar">
                 <p class="muted">Mostrando <strong><%= propiedades.size() %></strong> propiedades de <strong><%= fuenteDatos %></strong>.</p>
-                <a class="btn btn-secondary" href="${pageContext.request.contextPath}/detalle-propiedad?id=1">Ver ejemplo de detalle</a>
+
             </div>
 
             <% if (request.getAttribute("errorBaseDatos") != null) { %>
@@ -109,23 +109,23 @@
                     for (Propiedad propiedad : propiedades) {
                 %>
                 <article class="card property-card" data-property-card
-                         data-title="<%= propiedad.getTitulo() %>"
-                         data-operation="<%= propiedad.getTipoOperacion().toLowerCase() %>"
-                         data-type="<%= propiedad.getTipo().toLowerCase() %>"
-                         data-location="<%= propiedad.getUbicacion() %>"
-                         data-price="<%= propiedad.getPrecio() %>"
-                         data-bedrooms="<%= propiedad.getHabitaciones() %>">
-                    <div class="property-image" style="background-image: url('<%= request.getContextPath() + propiedad.getImagenPrincipal() %>');"></div>
+                         data-title="<%= Html.escapar(propiedad.getTitulo()) %>"
+                         data-operation="<%= Html.escapar(propiedad.getTipoOperacion().toLowerCase()) %>"
+                         data-type="<%= Html.escapar(propiedad.getTipo().toLowerCase()) %>"
+                         data-location="<%= Html.escapar(propiedad.getUbicacion()) %>"
+                         data-price="<%= Html.escapar(propiedad.getPrecio()) %>"
+                         data-bedrooms="<%= Html.escapar(propiedad.getHabitaciones()) %>">
+                    <div class="property-image" style="background-image: url('<%= Html.escapar(request.getContextPath() + propiedad.getImagenPrincipal()) %>');"></div>
                     <div class="property-body">
-                        <span class="property-badge"><%= propiedad.getTipoOperacion() %> · <%= propiedad.getTipo() %></span>
-                        <h3><%= propiedad.getTitulo() %></h3>
-                        <p class="muted"><%= propiedad.getUbicacion() %></p>
+                        <span class="property-badge"><%= Html.escapar(propiedad.getTipoOperacion()) %> · <%= Html.escapar(propiedad.getTipo()) %></span>
+                        <h3><%= Html.escapar(propiedad.getTitulo()) %></h3>
+                        <p class="muted"><%= Html.escapar(propiedad.getUbicacion()) %></p>
                         <div class="property-meta">
-                            <span>$ <%= propiedad.getPrecio() %></span>
-                            <span><%= propiedad.getArea() %> m2</span>
-                            <span><%= propiedad.getBanos() %> baños</span>
+                            <span>$ <%= Html.escapar(propiedad.getPrecio()) %></span>
+                            <span><%= Html.escapar(propiedad.getArea()) %> m2</span>
+                            <span><%= Html.escapar(propiedad.getBanos()) %> baños</span>
                         </div>
-                        <a class="btn btn-secondary" href="${pageContext.request.contextPath}/detalle-propiedad?id=<%= propiedad.getId() %>">Ver detalle</a>
+                        <a class="btn btn-secondary" href="${pageContext.request.contextPath}/detalle-propiedad?id=<%= Html.escapar(propiedad.getId()) %>">Ver detalle</a>
                     </div>
                 </article>
                 <% } %>

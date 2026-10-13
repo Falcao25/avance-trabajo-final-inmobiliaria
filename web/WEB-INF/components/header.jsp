@@ -1,4 +1,4 @@
-<header class="site-header${requestScope.publicBootstrap ? ' navbar navbar-expand-md' : ''}">
+<header class="site-header">
     <div class="container header-bar">
         <a class="brand" href="${pageContext.request.contextPath}/index.jsp">
             <img class="brand-logo" src="${pageContext.request.contextPath}/img/logo/logo.svg" alt="Inmobiliaria Aurora">

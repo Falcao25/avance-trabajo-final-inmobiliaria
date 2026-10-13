@@ -25,7 +25,6 @@
 </footer>
 
 <script src="${pageContext.request.contextPath}/js/main.js"></script>
-<script src="${pageContext.request.contextPath}/js/propiedades.js"></script>
 <script src="${pageContext.request.contextPath}/js/login.js"></script>
 </body>
 </html>

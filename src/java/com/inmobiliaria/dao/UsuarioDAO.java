@@ -14,7 +14,7 @@ public class UsuarioDAO {
     public List<Usuario> listar() throws SQLException {
         List<Usuario> usuarios = new ArrayList<>();
         String sql = """
-                SELECT id, nombre, apellido, correo, password, rol, estado
+                SELECT id, nombre, apellido, correo, rol, estado
                 FROM usuarios
                 ORDER BY id DESC
                 """;
@@ -26,7 +26,7 @@ public class UsuarioDAO {
                         rs.getInt("id"),
                         rs.getString("nombre"),
                         rs.getString("correo"),
-                        rs.getString("password"),
+                        null,
                         rs.getString("rol"),
                         rs.getBoolean("estado")));
                 usuarios.get(usuarios.size() - 1).setApellido(rs.getString("apellido"));

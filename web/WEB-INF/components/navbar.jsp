@@ -5,7 +5,7 @@
         <span></span>
     </button>
 
-    <ul class="nav-menu${requestScope.publicBootstrap ? ' navbar-nav' : ''}" data-nav-menu>
+    <ul class="nav-menu" data-nav-menu>
         <li><a href="${pageContext.request.contextPath}/index.jsp">Inicio</a></li>
         <li><a href="${pageContext.request.contextPath}/propiedades">Propiedades</a></li>
         <li><a href="${pageContext.request.contextPath}/nosotros.jsp">Nosotros</a></li>

@@ -1,7 +1,7 @@
 package com.inmobiliaria.controller;
 
 import com.inmobiliaria.dao.PropiedadDAO;
-import com.inmobiliaria.model.MockData;
+import java.util.Collections;
 import com.inmobiliaria.model.Propiedad;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -35,12 +35,12 @@ public class PropiedadServlet extends HttpServlet {
         try {
             propiedades = propiedadDAO.listar();
             request.setAttribute("fuenteDatos", "MySQL");
-        } catch (SQLException e) {
+        } catch (SQLException | ExceptionInInitializerError | NoClassDefFoundError e) {
             getServletContext().log("No fue posible leer propiedades desde MySQL", e);
-            propiedades = MockData.obtenerPropiedades();
-            request.setAttribute("fuenteDatos", "Mock de respaldo");
+            propiedades = Collections.emptyList();
+            request.setAttribute("fuenteDatos", "MySQL no disponible");
             request.setAttribute("errorBaseDatos",
-                    "No se pudo conectar a MySQL. Se muestran datos mock de respaldo.");
+                    "No se pudieron cargar las propiedades desde MySQL. Intenta nuevamente en unos momentos.");
         }
 
         request.setAttribute("propiedades", filtrarPropiedades(request, propiedades));
@@ -50,22 +50,23 @@ public class PropiedadServlet extends HttpServlet {
 
     private void mostrarDetalle(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int id = parseInt(request.getParameter("id"), 1);
-        Propiedad propiedad;
-        try {
-            propiedad = propiedadDAO.buscarPorId(id);
-            if (propiedad == null) {
-                propiedad = MockData.obtenerPropiedadPorId(id);
-                request.setAttribute("fuenteDatos", "Mock de respaldo");
-            } else {
-                request.setAttribute("fuenteDatos", "MySQL");
+        int id = parseInt(request.getParameter("id"), 0);
+        Propiedad propiedad = null;
+        if (id <= 0) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            request.setAttribute("errorDetalle", "La propiedad solicitada no existe.");
+        } else {
+            try {
+                propiedad = propiedadDAO.buscarPorId(id);
+                if (propiedad == null) {
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                    request.setAttribute("errorDetalle", "La propiedad solicitada no existe.");
+                }
+            } catch (SQLException | ExceptionInInitializerError | NoClassDefFoundError e) {
+                getServletContext().log("No se pudo leer el detalle desde MySQL", e);
+                response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+                request.setAttribute("errorDetalle", "No se pudo cargar la propiedad. Intenta nuevamente en unos momentos.");
             }
-        } catch (SQLException e) {
-            getServletContext().log("No fue posible leer el detalle desde MySQL", e);
-            propiedad = MockData.obtenerPropiedadPorId(id);
-            request.setAttribute("fuenteDatos", "Mock de respaldo");
-            request.setAttribute("errorBaseDatos",
-                    "No se pudo conectar a MySQL. Se muestra un detalle mock de respaldo.");
         }
 
         request.setAttribute("propiedad", propiedad);

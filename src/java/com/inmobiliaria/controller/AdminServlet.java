@@ -1,7 +1,8 @@
 package com.inmobiliaria.controller;
 
 import com.inmobiliaria.dao.PropiedadDAO;
-import com.inmobiliaria.model.MockData;
+import com.inmobiliaria.dao.ContactoDAO;
+import com.inmobiliaria.dao.UsuarioDAO;
 import com.inmobiliaria.model.Propiedad;
 import com.inmobiliaria.validation.PropiedadValidacion;
 import jakarta.servlet.RequestDispatcher;
@@ -36,11 +37,11 @@ public class AdminServlet extends HttpServlet {
             case "/admin/nueva-propiedad" -> forward(request, response, "/admin/nueva-propiedad.jsp");
             case "/admin/editar-propiedad" -> mostrarEdicion(request, response);
             case "/admin/clientes" -> {
-                request.setAttribute("clientes", MockData.obtenerClientes());
+                cargarContactos(request);
                 forward(request, response, "/admin/clientes.jsp");
             }
             case "/admin/usuarios" -> {
-                request.setAttribute("usuarios", MockData.obtenerUsuarios());
+                cargarUsuarios(request);
                 forward(request, response, "/admin/usuarios.jsp");
             }
             default -> response.sendRedirect(request.getContextPath() + "/admin/dashboard");
@@ -73,7 +74,7 @@ public class AdminServlet extends HttpServlet {
             request.setAttribute("errorBaseDatos", e.getMessage());
             request.setAttribute("propiedad", propiedadDesdeFormulario(request));
             forward(request, response, "/admin/nueva-propiedad.jsp");
-        } catch (SQLException e) {
+        } catch (SQLException | ExceptionInInitializerError | NoClassDefFoundError e) {
             getServletContext().log("No fue posible guardar la propiedad en MySQL", e);
             request.setAttribute("errorBaseDatos", "No se pudo guardar la propiedad. Verifica la conexión y los datos.");
             request.setAttribute("propiedad", propiedadDesdeFormulario(request));
@@ -118,8 +119,8 @@ public class AdminServlet extends HttpServlet {
     private void mostrarDashboard(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         cargarPropiedades(request);
-        request.setAttribute("clientes", MockData.obtenerClientes());
-        request.setAttribute("usuarios", MockData.obtenerUsuarios());
+        cargarContactos(request);
+        cargarUsuarios(request);
         forward(request, response, "/admin/dashboard.jsp");
     }
 
@@ -147,11 +148,31 @@ public class AdminServlet extends HttpServlet {
         forward(request, response, "/admin/editar-propiedad.jsp");
     }
 
+    private void cargarContactos(HttpServletRequest request) {
+        try {
+            request.setAttribute("contactos", new ContactoDAO().listar());
+        } catch (SQLException | ExceptionInInitializerError | NoClassDefFoundError e) {
+            getServletContext().log("No se pudieron leer los contactos de MySQL", e);
+            request.setAttribute("contactos", Collections.emptyList());
+            request.setAttribute("errorContactos", "No se pudieron cargar los contactos desde MySQL.");
+        }
+    }
+
+    private void cargarUsuarios(HttpServletRequest request) {
+        try {
+            request.setAttribute("usuarios", new UsuarioDAO().listar());
+        } catch (SQLException | ExceptionInInitializerError | NoClassDefFoundError e) {
+            getServletContext().log("No se pudieron leer los usuarios de MySQL", e);
+            request.setAttribute("usuarios", Collections.emptyList());
+            request.setAttribute("errorUsuarios", "No se pudieron cargar los usuarios desde MySQL.");
+        }
+    }
+
     private void cargarPropiedades(HttpServletRequest request) {
         try {
             request.setAttribute("propiedades", propiedadDAO.listar());
             request.setAttribute("fuenteDatos", "MySQL");
-        } catch (SQLException e) {
+        } catch (SQLException | ExceptionInInitializerError | NoClassDefFoundError e) {
             getServletContext().log("No fue posible leer propiedades desde MySQL", e);
             request.setAttribute("propiedades", Collections.emptyList());
             request.setAttribute("fuenteDatos", "MySQL no disponible");
