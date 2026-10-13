@@ -3,11 +3,16 @@ package com.inmobiliaria.bean;
 import com.inmobiliaria.dao.PropiedadDAO;
 import com.inmobiliaria.model.Propiedad;
 import com.inmobiliaria.validation.PropiedadValidacion;
+import com.inmobiliaria.util.ImagenAlmacen;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.validator.ValidatorException;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
+import jakarta.servlet.http.Part;
+import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
@@ -24,6 +29,7 @@ public class PropiedadFormularioBean implements Serializable {
     private Integer idEdicion;
     private boolean edicion;
     private boolean habilitado;
+    private transient Part imagenArchivo;
 
     @PostConstruct
     public void inicializar() {
@@ -63,7 +69,14 @@ public class PropiedadFormularioBean implements Serializable {
             return null;
         }
         PropiedadValidacion.normalizar(propiedad);
+        String imagenAnterior = propiedad.getImagenPrincipal();
+        String imagenNueva = null;
+        boolean guardada = false;
         try {
+            if (imagenArchivo != null && imagenArchivo.getSize() > 0) {
+                imagenNueva = ImagenAlmacen.guardar(imagenArchivo);
+                propiedad.setImagenPrincipal(imagenNueva);
+            }
             PropiedadDAO dao = new PropiedadDAO();
             if (edicion) {
                 // El ID guardado en el estado de vista no depende de un input o parametro POST.
@@ -79,15 +92,42 @@ public class PropiedadFormularioBean implements Serializable {
                 if (creado <= 0) throw new SQLException("No se obtuvo la clave generada.");
                 propiedad.setId(creado);
             }
+            guardada = true;
             FacesContext contexto = FacesContext.getCurrentInstance();
             contexto.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     edicion ? "Propiedad actualizada correctamente." : "Propiedad registrada correctamente.", ""));
             contexto.getExternalContext().getFlash().setKeepMessages(true);
             return "/admin/propiedades-jsf?faces-redirect=true";
+        } catch (IOException | IllegalArgumentException e) {
+            LOGGER.log(Level.WARNING, "No se pudo subir la imagen de la propiedad", e);
+            error(e instanceof IllegalArgumentException ? e.getMessage()
+                    : "No se pudo subir la imagen. Selecciónala nuevamente e intenta guardar.");
+            return null;
         } catch (SQLException | ExceptionInInitializerError | NoClassDefFoundError e) {
             LOGGER.log(Level.SEVERE, "No se pudo guardar la propiedad desde JSF", e);
             error("No se pudo guardar la propiedad. Conservamos los datos para que puedas intentarlo nuevamente.");
             return null;
+        } finally {
+            imagenArchivo = null;
+            if (!guardada && imagenNueva != null) {
+                propiedad.setImagenPrincipal(imagenAnterior);
+                try {
+                    ImagenAlmacen.eliminar(imagenNueva);
+                } catch (IOException e) {
+                    LOGGER.log(Level.WARNING, "No se pudo eliminar una imagen sin propiedad", e);
+                }
+            }
+        }
+    }
+
+    public void validarImagen(FacesContext contexto, UIComponent componente, Object valor) {
+        if (!(valor instanceof Part archivo) || archivo.getSize() == 0) return;
+        try {
+            ImagenAlmacen.validar(archivo);
+        } catch (IOException | IllegalArgumentException e) {
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    e instanceof IllegalArgumentException ? e.getMessage()
+                            : "No se pudo leer la imagen. Selecciona un archivo JPG, PNG o GIF válido.", null));
         }
     }
 
@@ -98,6 +138,8 @@ public class PropiedadFormularioBean implements Serializable {
     }
 
     public Propiedad getPropiedad() { return propiedad; }
+    public Part getImagenArchivo() { return imagenArchivo; }
+    public void setImagenArchivo(Part imagenArchivo) { this.imagenArchivo = imagenArchivo; }
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
     public boolean isEdicion() { return edicion; }

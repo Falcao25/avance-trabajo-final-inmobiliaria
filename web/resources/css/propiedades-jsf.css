@@ -5,6 +5,11 @@
 .admin-jsf h3 { font-size: 1.17em; }
 .admin-jsf .admin-btn, .admin-jsf .form-control, .admin-jsf .form-select { line-height: normal; }
 .admin-jsf .form-label { margin-bottom: 0; }
+.admin-jsf .admin-upload-button { cursor: pointer; }
+.admin-jsf .admin-upload-button:focus-visible {
+    outline: 3px solid #173f4b;
+    outline-offset: 3px;
+}
 .admin-jsf .btn-primary {
     --bs-btn-bg: #173f4b;
     --bs-btn-border-color: #173f4b;

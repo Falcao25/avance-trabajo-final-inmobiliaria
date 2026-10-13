@@ -16,7 +16,7 @@
         </div>
                 <h:messages id="mensajes" globalOnly="true" layout="list" showSummary="true" showDetail="false"
                             styleClass="admin-jsf-messages" errorClass="alert alert-danger admin-error" infoClass="alert alert-success" />
-                <h:form id="propiedad" rendered="#{propiedadFormularioBean.habilitado}" styleClass="admin-panel">
+                <h:form id="propiedad" rendered="#{propiedadFormularioBean.habilitado}" styleClass="admin-panel" enctype="multipart/form-data">
                     <div class="admin-stack">
                         <h:panelGroup layout="block" rendered="#{propiedadFormularioBean.edicion}" styleClass="admin-muted">
                             Identificador: <h:outputText id="identificador" value="#{propiedadFormularioBean.propiedad.id}" />
@@ -82,9 +82,17 @@
                                 <h:message for="banos" styleClass="admin-error" />
                             </div>
                             <div class="col-12 admin-field">
-                                <h:outputLabel for="imagen" value="Ruta de la imagen principal" styleClass="form-label"  />
-                                <h:inputText id="imagen" value="#{propiedadFormularioBean.propiedad.imagenPrincipal}" styleClass="form-control"  />
-                                <div class="admin-note">Déjala vacía para utilizar la imagen predeterminada del inmueble.</div>
+                                <span class="form-label">Imagen principal</span>
+                                <div class="d-flex flex-wrap align-items-center gap-2">
+                                    <h:outputLabel for="imagen" value="Subir imagen" styleClass="btn btn-primary text-white" tabindex="0"
+                                                   onkeydown="if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); document.getElementById(this.htmlFor).click(); }" />
+                                    <h:inputFile id="imagen" value="#{propiedadFormularioBean.imagenArchivo}" validator="#{propiedadFormularioBean.validarImagen}" styleClass="visually-hidden"
+                                                 onchange="document.getElementById('imagen-seleccionada').textContent = this.files.length ? this.files[0].name : 'Ningún archivo seleccionado';">
+                                        <f:passThroughAttribute name="accept" value="image/jpeg,image/png,image/gif" />
+                                    </h:inputFile>
+                                    <span id="imagen-seleccionada" class="admin-note" aria-live="polite">Ningún archivo seleccionado</span>
+                                </div>
+                                <div class="admin-note">JPG, PNG o GIF, máximo 5 MB. La imagen se subirá al guardar la propiedad. Si no seleccionas una, se conserva la actual o se utiliza la predeterminada.</div>
                                 <h:message for="imagen" styleClass="admin-error" />
                             </div>
                             <div class="col-12 admin-field">
