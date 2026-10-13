@@ -1,6 +1,8 @@
 param(
     [switch]$VerifyOnly,
-    [switch]$Force
+    [switch]$Force,
+    [string[]]$Dependency,
+    [string]$JavaHome = $env:JAVA_HOME
 )
 
 $ErrorActionPreference = 'Stop'
@@ -12,10 +14,15 @@ Get-Content -LiteralPath (Join-Path $PSScriptRoot 'dependencies.properties') | F
 }
 $libraryDir = Join-Path $projectRoot 'web/WEB-INF/lib'
 if (-not $VerifyOnly) { New-Item -ItemType Directory -Force -Path $libraryDir | Out-Null }
-Add-Type -AssemblyName System.IO.Compression
-Add-Type -AssemblyName System.IO.Compression.FileSystem
 
-foreach ($id in $lock['dependencies.ids'].Split(',')) {
+$ids = $lock['dependencies.ids'].Split(',')
+if ($Dependency) {
+    foreach ($id in $Dependency) {
+        if ($id -notin $ids) { throw "Dependencia desconocida: $id" }
+    }
+    $ids = $Dependency
+}
+foreach ($id in $ids) {
     $assetDir = $libraryDir
     if ($lock.ContainsKey("$id.directory")) { $assetDir = Join-Path $projectRoot $lock["$id.directory"] }
     if (-not $VerifyOnly) { New-Item -ItemType Directory -Force -Path $assetDir | Out-Null }
@@ -41,13 +48,14 @@ foreach ($id in $lock['dependencies.ids'].Split(',')) {
             if ($id -eq 'weld') {
                 # El shaded original incluye APIs que ya proporciona Tomcat 11.
                 # Conservamos CDI/Weld y retiramos Servlet, EL y Annotation duplicadas.
-                $archive = [System.IO.Compression.ZipFile]::Open($download, [System.IO.Compression.ZipArchiveMode]::Update)
+                # Java escribe cabeceras y descriptores compatibles con el lector ZIP de NetBeans.
+                $java = if ($JavaHome) { Join-Path $JavaHome 'bin/java.exe' } else { 'java.exe' }
+                $prepared = [System.IO.Path]::GetTempFileName()
                 try {
-                    $excluded = @($archive.Entries | Where-Object {
-                        $_.FullName -match '^jakarta/(servlet|el|annotation)/|^META-INF/maven/jakarta\.(servlet|el|annotation)/'
-                    })
-                    foreach ($entry in $excluded) { $entry.Delete() }
-                } finally { $archive.Dispose() }
+                    & $java (Join-Path $PSScriptRoot 'PrepareWeld.java') $download $prepared
+                    if ($LASTEXITCODE -ne 0) { throw 'No se pudo preparar Weld con JDK 21. Indica -JavaHome.' }
+                    Copy-Item -LiteralPath $prepared -Destination $download -Force
+                } finally { Remove-Item -LiteralPath $prepared -ErrorAction SilentlyContinue }
             }
             if ((Get-FileHash -LiteralPath $download -Algorithm SHA256).Hash -ne $lock["$id.sha256"]) {
                 throw "SHA-256 de la biblioteca preparada incorrecto: $id"

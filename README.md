@@ -39,12 +39,18 @@ La configuracion, la construccion Ant y los resultados comprobados se describen 
 
 ## APF2 - Fase 2: inventario administrativo JSF
 
-Iniciar sesion con el login existente y abrir **Inventario de propiedades (JSF)**
+Iniciar sesion con el login existente y abrir **Propiedades**
 desde el menu del dashboard:
 
 http://localhost:8080/avance-proyecto-final-inmobiliaria/admin/propiedades-jsf.xhtml
 
-La vista usa Bootstrap 5.3.8 local, `h:dataTable`, un bean CDI `@ViewScoped` y
+El listado y los formularios JSF usan Bootstrap 5.3.8 local: tabla responsive,
+rejilla `row`/`col`, controles `form-control`/`form-select`, botones y alertas.
+La plantilla carga Bootstrap antes de `admin.css` y de los ajustes de Faces,
+para conservar el mismo tema claro y la navegacion del resto del panel.
+El dashboard muestra solamente metricas; el registro se abre desde Propiedades.
+
+La vista usa `h:dataTable`, un bean CDI `@ViewScoped` y
 `PropiedadDAO.listar()` para consultar MySQL. No implementa escrituras JSF.
 El acceso a `/admin` y `/admin/*`, incluidas las JSP directas, requiere la sesion
 creada por el login existente.

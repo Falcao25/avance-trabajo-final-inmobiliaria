@@ -54,7 +54,7 @@ public class AdminServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
 
         switch (request.getServletPath()) {
-            case "/admin/dashboard", "/admin/nueva-propiedad" -> guardarPropiedad(request, response);
+            case "/admin/nueva-propiedad" -> guardarPropiedad(request, response);
             case "/admin/editar-propiedad" -> actualizarPropiedad(request, response);
             case "/admin/propiedades" -> eliminarPropiedad(request, response);
             default -> response.sendRedirect(request.getContextPath() + "/admin/dashboard");

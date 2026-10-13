@@ -1,0 +1,5 @@
+/* Bootstrap organiza las métricas; admin.css conserva el diseño del panel. */
+body.admin-dashboard { line-height: normal; }
+.admin-dashboard a { color: inherit; text-decoration: none; }
+.admin-dashboard .admin-btn { line-height: normal; }
+.admin-dashboard .card { color: inherit; }

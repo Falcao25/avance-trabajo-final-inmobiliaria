@@ -1,102 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html"
-      xmlns:f="jakarta.faces.core" lang="es" data-bs-theme="dark">
-    <h:head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Inmobiliaria Aurora | Inventario de propiedades</title>
-        <h:outputStylesheet library="bootstrap" name="bootstrap.min.css" />
-        <h:outputStylesheet name="css/propiedades-jsf.css" />
-    </h:head>
-    <h:body>
-        <div class="container-fluid">
-            <div class="row min-vh-100">
-                <aside class="col-12 col-lg-3 col-xl-2 aurora-sidebar p-4">
-                    <a class="d-flex align-items-center gap-3 text-decoration-none mb-4" href="#{request.contextPath}/admin/dashboard">
-                        <img src="#{request.contextPath}/img/logo/logo.svg" width="42" height="42" alt="Inmobiliaria Aurora" />
-                        <span class="fw-semibold text-light">Inmobiliaria Aurora<small class="d-block text-secondary">Centro de administración</small></span>
-                    </a>
-                    <nav class="nav nav-pills flex-column gap-2" aria-label="Navegación administrativa">
-                        <a class="nav-link" href="#{request.contextPath}/admin/dashboard">Panel general</a>
-                        <h:link styleClass="nav-link active" outcome="/admin/propiedades-jsf" value="Inventario de propiedades" />
-                        <a class="nav-link" href="#{request.contextPath}/admin/propiedades">Gestión de propiedades</a>
-                        <a class="nav-link" href="#{request.contextPath}/admin/clientes">Contactos</a>
-                        <a class="nav-link" href="#{request.contextPath}/admin/usuarios">Usuarios</a>
-                    </nav>
-                    <div class="d-flex flex-wrap gap-2 mt-4">
-                        <a class="btn btn-outline-light btn-sm" href="#{request.contextPath}/index.jsp">Volver al sitio</a>
-                        <a class="btn btn-outline-light btn-sm" href="#{request.contextPath}/logout">Cerrar sesión</a>
-                    </div>
-                </aside>
-                <main class="col-12 col-lg-9 col-xl-10 p-3 p-md-4 p-xl-5">
-                    <header class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
-                        <div>
-                            <span class="badge aurora-badge mb-2">Panel administrativo</span>
-                            <h1 class="h2 mb-1">Inventario de propiedades</h1>
-                            <p class="text-secondary mb-0">Consulta el inventario inmobiliario y su disponibilidad.</p>
-                        </div>
-                        <div class="d-flex flex-wrap gap-2">
-                            <h:link id="nuevaPropiedad" styleClass="btn btn-primary" outcome="/admin/propiedad-formulario" value="Registrar propiedad" />
-                            <a class="btn btn-outline-light" href="#{request.contextPath}/admin/dashboard">Volver al dashboard</a>
-                        </div>
-                    </header>
-
-                    <section class="card aurora-card mb-4" aria-label="Resumen del inventario">
-                        <div class="card-body d-flex flex-wrap justify-content-between align-items-center gap-3">
-                            <div>
-                                <h2 class="h6 text-secondary mb-1">Propiedades registradas</h2>
-                                <h:panelGroup rendered="#{not propiedadListaBean.errorCarga}">
-                                    <h:outputText id="cantidad" value="#{propiedadListaBean.cantidad}" styleClass="display-6 fw-semibold" />
-                                </h:panelGroup>
-                                <h:outputText value="Información no disponible" rendered="#{propiedadListaBean.errorCarga}" styleClass="text-warning" />
-                            </div>
-                            <h:form id="listado">
-                                <h:commandButton id="actualizar" value="Actualizar listado" action="#{propiedadListaBean.recargar}" styleClass="btn btn-primary" />
-                            </h:form>
-                        </div>
-                    </section>
-
-                    <h:messages id="mensajes" globalOnly="true" showSummary="true" showDetail="true"
-                                layout="list" errorClass="alert alert-danger" infoClass="alert alert-success" styleClass="list-unstyled" />
-
-                    <h:panelGroup id="estadoVacio" layout="block" rendered="#{propiedadListaBean.vacio}" styleClass="alert alert-info">
-                        <strong>No hay propiedades registradas.</strong>
-                        <p class="mb-0">El inventario está vacío. Puedes utilizar la gestión de propiedades existente para registrar una.</p>
-                    </h:panelGroup>
-
-                    <h:panelGroup layout="block" rendered="#{not propiedadListaBean.errorCarga and not propiedadListaBean.vacio}" styleClass="card aurora-card">
-                        <div class="card-header p-3"><h2 class="h5 mb-0">Listado de propiedades</h2></div>
-                        <div class="table-responsive">
-                            <h:dataTable id="tablaPropiedades" value="#{propiedadListaBean.propiedades}" var="propiedad"
-                                         styleClass="table table-hover align-middle mb-0 aurora-table" headerClass="text-nowrap">
-                                <f:facet name="caption"><span class="visually-hidden">Inventario de propiedades registradas</span></f:facet>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core" xmlns:ui="jakarta.faces.facelets"
+                template="/WEB-INF/templates/admin.xhtml">
+    <ui:define name="title">Propiedades</ui:define>
+    <ui:define name="subtitle">Consulta las propiedades registradas y su disponibilidad.</ui:define>
+    <ui:define name="content">
+        <section class="admin-panel">
+            <div class="admin-panel-header">
+                <div>
+                    <span class="admin-pill">Propiedades</span>
+                    <h2>Listado de propiedades</h2>
+                    <p>Revisa los inmuebles registrados y administra su información.</p>
+                </div>
+                <div class="admin-actions d-flex flex-wrap">
+                    <h:link id="nuevaPropiedad" styleClass="btn btn-primary admin-btn admin-btn-primary" outcome="/admin/propiedad-formulario" value="Registrar propiedad" />
+                    <h:form id="listado">
+                        <h:commandButton id="actualizar" value="Actualizar listado" action="#{propiedadListaBean.recargar}" styleClass="btn btn-outline-secondary admin-btn admin-btn-secondary" />
+                    </h:form>
+                </div>
+            </div>
+            <h:panelGroup layout="block" rendered="#{not propiedadListaBean.errorCarga}" styleClass="admin-note admin-jsf-summary">
+                Propiedades registradas: <h:outputText id="cantidad" value="#{propiedadListaBean.cantidad}" />
+            </h:panelGroup>
+            <h:messages id="mensajes" globalOnly="true" showSummary="true" showDetail="true"
+                        layout="list" errorClass="alert alert-danger admin-error" infoClass="alert alert-success" styleClass="admin-jsf-messages" />
+            <h:panelGroup id="estadoVacio" layout="block" rendered="#{propiedadListaBean.vacio}" styleClass="admin-note">
+                <strong>No hay propiedades registradas.</strong>
+                <p>Utiliza el botón Registrar propiedad para agregar una.</p>
+            </h:panelGroup>
+            <h:panelGroup layout="block" rendered="#{not propiedadListaBean.errorCarga and not propiedadListaBean.vacio}" styleClass="table-responsive admin-table-wrap">
+                <h:dataTable id="tablaPropiedades" value="#{propiedadListaBean.propiedades}" var="propiedad" styleClass="table align-middle admin-table admin-jsf-table">
+                    <f:facet name="caption"><span class="visually-hidden">Listado de propiedades registradas</span></f:facet>
                                 <h:column><f:facet name="header">ID</f:facet><h:outputText value="#{propiedad.id}" /></h:column>
-                                <h:column><f:facet name="header">Título</f:facet><h:outputText value="#{propiedad.titulo}" styleClass="fw-semibold" /></h:column>
+                                <h:column><f:facet name="header">Título</f:facet><h:outputText value="#{propiedad.titulo}"  /></h:column>
                                 <h:column><f:facet name="header">Tipo de inmueble</f:facet><h:outputText value="#{propiedad.tipo}" /></h:column>
                                 <h:column><f:facet name="header">Operación</f:facet><h:outputText value="#{propiedad.tipoOperacion}" /></h:column>
                                 <h:column><f:facet name="header">Ubicación</f:facet><h:outputText value="#{propiedad.ubicacion}" /></h:column>
                                 <h:column>
                                     <f:facet name="header">Precio ($)</f:facet>
-                                    <h:outputText value="#{propiedad.precio}" styleClass="text-nowrap">
+                                    <h:outputText value="#{propiedad.precio}" >
                                         <f:convertNumber type="number" locale="en_US" minFractionDigits="2" maxFractionDigits="2" />
                                     </h:outputText>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">Estado</f:facet>
-                                    <h:outputText value="#{propiedad.estado}" styleClass="badge #{propiedad.estado eq 'DISPONIBLE' ? 'text-bg-success' : 'text-bg-secondary'}" />
+                                    <h:outputText value="#{propiedad.estado}" styleClass="admin-status" />
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">Acciones</f:facet>
-                                    <h:link outcome="/admin/propiedad-formulario" value="Editar" styleClass="btn btn-outline-light btn-sm">
+                                    <h:link outcome="/admin/propiedad-formulario" value="Editar" styleClass="btn btn-outline-secondary admin-btn admin-btn-secondary">
                                         <f:param name="id" value="#{propiedad.id}" />
                                     </h:link>
                                 </h:column>
-                            </h:dataTable>
-                        </div>
-                    </h:panelGroup>
-                    <footer class="small text-secondary mt-4">Inmobiliaria Aurora · Administración de propiedades</footer>
-                </main>
-            </div>
-        </div>
-    </h:body>
-</html>
+                </h:dataTable>
+            </h:panelGroup>
+        </section>
+    </ui:define>
+</ui:composition>

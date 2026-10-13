@@ -1,0 +1,38 @@
+/* Bootstrap aporta rejilla y componentes; se conserva el tema público de Aurora. */
+.home-bootstrap { line-height: normal; }
+.home-bootstrap .container {
+    max-width: var(--container);
+    padding-left: 0;
+    padding-right: 0;
+}
+.home-bootstrap .site-header.navbar { padding: 0; }
+.home-bootstrap .btn, .home-bootstrap .form-control, .home-bootstrap .form-select { line-height: normal; }
+.home-bootstrap .btn-primary {
+    --bs-btn-bg: var(--primary);
+    --bs-btn-border-color: var(--primary);
+    --bs-btn-hover-bg: var(--primary-dark);
+    --bs-btn-hover-border-color: var(--primary-dark);
+    --bs-btn-active-bg: var(--primary-dark);
+    --bs-btn-focus-shadow-rgb: 23, 63, 75;
+}
+.home-bootstrap .btn-secondary {
+    --bs-btn-color: var(--primary);
+    --bs-btn-hover-color: var(--primary);
+    --bs-btn-hover-bg: var(--surface-alt);
+    --bs-btn-hover-border-color: var(--border);
+    --bs-btn-active-bg: var(--surface-alt);
+    --bs-btn-active-color: var(--primary);
+}
+.home-bootstrap .form-select { padding-right: 2.5rem; }
+.home-bootstrap .form-control:focus, .home-bootstrap .form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 .2rem rgba(23, 63, 75, .15);
+}
+.home-bootstrap .card { color: inherit; }
+.home-bootstrap .property-body .btn { align-self: flex-start; margin-top: auto; }
+.home-bootstrap h3 { font-size: 1.17em; }
+.home-bootstrap .property-body h3 { font-size: 1.35rem; }
+.home-bootstrap .site-footer h4 { font-size: 1em; }
+@media (max-width: 768px) {
+    .home-bootstrap .nav-menu { flex-direction: column; }
+}

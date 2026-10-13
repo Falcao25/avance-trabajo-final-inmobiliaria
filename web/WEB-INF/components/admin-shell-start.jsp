@@ -13,6 +13,7 @@
         adminActive = request.getServletPath();
     }
     String contextPath = request.getContextPath();
+    boolean adminBootstrap = Boolean.TRUE.equals(request.getAttribute("adminBootstrap"));
     String dashboardClass = ("/admin".equals(adminActive) || "/admin/dashboard".equals(adminActive)) ? "is-active" : "";
     String propiedadesClass = (adminActive != null && (adminActive.startsWith("/admin/propiedades") || adminActive.startsWith("/admin/nueva-propiedad") || adminActive.startsWith("/admin/editar-propiedad"))) ? "is-active" : "";
     String clientesClass = (adminActive != null && adminActive.startsWith("/admin/clientes")) ? "is-active" : "";
@@ -24,9 +25,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inmobiliaria Aurora | <%= adminTitle %></title>
+    <% if (adminBootstrap) { %>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.min.css">
+    <% } %>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin.css">
+    <% if (adminBootstrap) { %>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard-bootstrap.css">
+    <% } %>
 </head>
-<body class="admin-body">
+<body class="admin-body<%= adminBootstrap ? " admin-dashboard" : "" %>">
 <div class="admin-shell">
     <aside class="admin-sidebar">
         <a class="admin-brand" href="<%= contextPath %>/admin">
@@ -40,8 +47,7 @@
 
         <nav class="admin-nav" aria-label="Navegacion de administracion">
             <a class="<%= dashboardClass %>" href="<%= contextPath %>/admin/dashboard">Panel general</a>
-            <a class="<%= propiedadesClass %>" href="<%= contextPath %>/admin/propiedades">Propiedades</a>
-            <a href="<%= contextPath %>/admin/propiedades-jsf.xhtml">Inventario de propiedades (JSF)</a>
+            <a class="<%= propiedadesClass %>" href="<%= contextPath %>/admin/propiedades-jsf.xhtml">Propiedades</a>
             <a class="<%= clientesClass %>" href="<%= contextPath %>/admin/clientes">Contactos</a>
             <a class="<%= usuariosClass %>" href="<%= contextPath %>/admin/usuarios">Usuarios</a>
         </nav>
@@ -60,7 +66,7 @@
                 <p><%= adminSubtitle %></p>
             </div>
             <div class="admin-topbar-meta">
-                <span class="admin-badge">Registro de propiedades</span>
+                <span class="admin-badge"><%= adminBootstrap ? "Métricas del negocio" : "Registro de propiedades" %></span>
                 <span class="admin-muted">Acceso administrativo separado del sitio publico</span>
             </div>
         </header>

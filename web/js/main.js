@@ -7,7 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     toggle.addEventListener("click", () => {
-        const isOpen = menu.classList.toggle("is-open");
+        const menuClass = toggle.hasAttribute("data-bootstrap-menu") ? "show" : "is-open";
+        const isOpen = menu.classList.toggle(menuClass);
         toggle.setAttribute("aria-expanded", String(isOpen));
     });
 });

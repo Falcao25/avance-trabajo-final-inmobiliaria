@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core" xmlns:ui="jakarta.faces.facelets" lang="es">
+    <ui:insert name="metadata" />
+    <h:head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Inmobiliaria Aurora | <ui:insert name="title">Propiedades</ui:insert></title>
+        <link rel="stylesheet" href="#{resource['bootstrap:bootstrap.min.css']}" />
+        <link rel="stylesheet" href="#{request.contextPath}/css/admin.css" />
+        <link rel="stylesheet" href="#{resource['css/propiedades-jsf.css']}" />
+    </h:head>
+    <h:body styleClass="admin-body admin-jsf">
+        <div class="admin-shell">
+            <aside class="admin-sidebar">
+                <a class="admin-brand" href="#{request.contextPath}/admin">
+                    <img class="admin-brand-logo" src="#{request.contextPath}/img/logo/logo.svg" alt="Inmobiliaria Aurora" />
+                    <span class="admin-brand-text">
+                        <strong>Inmobiliaria Aurora</strong>
+                        <small>Centro de administracion</small>
+                    </span>
+                </a>
+                <p class="admin-sidebar-note">Espacio privado para dar de alta propiedades, revisar contactos y gestionar usuarios.</p>
+                <nav class="admin-nav" aria-label="Navegacion de administracion">
+                    <a href="#{request.contextPath}/admin/dashboard">Panel general</a>
+                    <h:link styleClass="is-active" outcome="/admin/propiedades-jsf" value="Propiedades" />
+                    <a href="#{request.contextPath}/admin/clientes">Contactos</a>
+                    <a href="#{request.contextPath}/admin/usuarios">Usuarios</a>
+                </nav>
+                <div class="admin-sidebar-actions">
+                    <a class="admin-btn admin-btn-ghost" href="#{request.contextPath}/index.jsp">Volver al sitio</a>
+                    <a class="admin-btn admin-btn-secondary" href="#{request.contextPath}/logout">Cerrar sesion</a>
+                </div>
+            </aside>
+            <div class="admin-main">
+                <header class="admin-topbar">
+                    <div class="admin-topbar-copy">
+                        <span class="admin-pill">Panel interno</span>
+                        <h1><ui:insert name="title">Propiedades</ui:insert></h1>
+                        <p><ui:insert name="subtitle">Gestión de propiedades.</ui:insert></p>
+                    </div>
+                    <div class="admin-topbar-meta">
+                        <span class="admin-badge">Registro de propiedades</span>
+                        <span class="admin-muted">Acceso administrativo separado del sitio publico</span>
+                    </div>
+                </header>
+                <main class="admin-content"><ui:insert name="content" /></main>
+            </div>
+        </div>
+    </h:body>
+</html>

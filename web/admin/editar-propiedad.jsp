@@ -15,7 +15,7 @@
             <p>Actualiza los datos que se muestran en el catálogo público.</p>
         </div>
         <div class="admin-actions">
-            <a class="admin-btn admin-btn-secondary" href="${pageContext.request.contextPath}/admin/propiedades">Volver al listado</a>
+            <a class="admin-btn admin-btn-secondary" href="${pageContext.request.contextPath}/admin/propiedades-jsf.xhtml">Volver al listado</a>
             <a class="admin-btn admin-btn-ghost" href="${pageContext.request.contextPath}/admin/dashboard">Panel general</a>
         </div>
     </div>
@@ -46,7 +46,7 @@
         </div>
         <label class="admin-check"><input name="destacada" type="checkbox" <%= propiedad.isDestacada() ? "checked" : "" %>> Mostrar como destacada</label>
         <div class="admin-field" style="grid-column: 1 / -1;"><label for="descripcion">Descripción</label><textarea id="descripcion" name="descripcion" rows="6"><%= propiedad.getDescripcion() %></textarea></div>
-        <div class="admin-form-actions" style="grid-column: 1 / -1;"><button class="admin-btn admin-btn-primary" type="submit">Actualizar propiedad</button><a class="admin-btn admin-btn-secondary" href="${pageContext.request.contextPath}/admin/propiedades">Cancelar</a></div>
+        <div class="admin-form-actions" style="grid-column: 1 / -1;"><button class="admin-btn admin-btn-primary" type="submit">Actualizar propiedad</button><a class="admin-btn admin-btn-secondary" href="${pageContext.request.contextPath}/admin/propiedades-jsf.xhtml">Cancelar</a></div>
     </form>
     <% } else { %>
     <p class="admin-error">No se encontró la propiedad solicitada.</p>

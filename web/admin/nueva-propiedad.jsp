@@ -19,7 +19,7 @@
         </div>
         <div class="admin-actions">
             <a class="admin-btn admin-btn-secondary" href="${pageContext.request.contextPath}/admin/dashboard">Volver al panel</a>
-            <a class="admin-btn admin-btn-ghost" href="${pageContext.request.contextPath}/admin/propiedades">Ver listado</a>
+            <a class="admin-btn admin-btn-ghost" href="${pageContext.request.contextPath}/admin/propiedades-jsf.xhtml">Ver listado</a>
         </div>
     </div>
 

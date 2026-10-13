@@ -1,7 +1,7 @@
 package com.inmobiliaria.bean;
 
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
+import jakarta.enterprise.context.RequestScoped;
 
 /** Prueba de integracion de Faces y CDI sin acceso a la base de datos. */
 @Named("pruebaJsfBean")
